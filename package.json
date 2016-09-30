@@ -1,0 +1,32 @@
+{
+  "name": "Kaktus",
+  "version": "0.0.0",
+  "description": "Web Browser",
+  "main": "main.js",
+  "repository": {
+    "url": "git@github.com:azer/kaktus.git",
+    "type": "git"
+  },
+  "author": "azer",
+  "license": "BSD",
+  "dependencies": {
+    "anglicize": "github:azer/anglicize",
+    "change-object": "github:azer/change-object",
+    "choo": "^3.3.0",
+    "debounce-fn": "github:azer/debounce-fn",
+    "electron": "1.4.0",
+    "format-text": "github:azer/format-text",
+    "indexeddb": "github:azer/indexeddb",
+    "less-common-words": "github:azer/less-common-words",
+    "mix-objects": "github:azer/mix-objects",
+    "parallel-loop": "github:azer/parallel-loop",
+    "title-from-url": "github:azer/title-from-url",
+    "unique-now": "github:azer/unique-now",
+    "uniques": "github:azer/uniques"
+  },
+  "devDependencies": {
+    "browserify": "^13.1.0",
+    "electron-packager": "^8.1.0",
+    "watchify": "^3.7.0"
+  }
+}

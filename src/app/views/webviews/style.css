@@ -1,0 +1,92 @@
+.content {
+  width: 100%;
+  height: calc(100% - 46px);
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  z-index: 1;
+}
+
+.content.selected {
+  visibility: visible;
+  top: 45px;
+  left: 0;
+}
+
+.focus-mode .content.selected {
+  top: 0;
+  height: 100%;
+}
+
+.content.has-error .webview {
+  display: none;
+}
+
+.webview, .error {
+  width: 100%;
+  height: 100%;
+}
+
+.error {
+  background: rgb(255, 243, 100);
+}
+
+.error .error-info {
+  position: absolute;
+  top: calc(50% - 100px);
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin: 25px auto;
+}
+
+.error .big-reload-button {
+  position: absolute;
+  margin: -8px 0 0 -90px;
+  font: 48px Arial;
+  /*border: 1px solid rgba(7, 212, 108, 0.4);*/
+  background: #fff;
+  color: #aaa;
+  border-radius: 50px;
+  padding: 0 14px 3px 15px;
+  cursor: pointer;
+  opacity: 0.9;
+  color: rgba(0, 202, 192, 0.8);
+}
+
+.error .big-reload-button:hover {
+  opacity: 1;
+  color: rgb(0, 202, 192);
+}
+
+.error h1 {
+  font: 600 32px Helvetica, Arial;
+  margin: 0 0 5px 0;
+}
+
+.error h1 span {
+  background: rgba(255, 0, 100, 0.5);
+  padding: 5px 8px;
+  color: #fff;
+}
+
+.error h2 {
+  margin: 0;
+  font: 21px Helvetica, Arial;
+  color: rgba(0, 0, 0, 0.7);
+  padding: 20px 10px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.error h3 {
+  color: rgba(0, 0, 0, 0.5);
+  font: 12px Arial;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.2)
+}
+
+.content .new-tab {
+  background: #f7f7f7;
+  padding: 20px;
+  font: 400 21px "San Francisco", Helvetica;
+  color: #666;
+  height: calc(100% - 40px);
+}
