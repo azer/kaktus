@@ -4,6 +4,7 @@ A new minimalistic web browser. It's currently usable, [and there is a lot to do
 
 * [Download](#download)
 * [How It Works](#how-it-works)
+* [Keyboard Shortcuts](#keyboard-shortcuts)
 * [Roadmap](#roadmap)
 * [Development](#development)
 
@@ -15,14 +16,14 @@ A new minimalistic web browser. It's currently usable, [and there is a lot to do
 ## How It Works
 ![](https://cldup.com/wDadS2XGrb.gif)
 
-* Tabbing menu shows both tabs and history items. They look same at first look.
+Tabbing menu shows both tabs and history items. They look same at first look. The difference is:
 * When you hover them or select with arrow buttons, you'll see;
   - Tabs appear as blue, there is an X button on the right
   - History items appear as pink, there is a + button on the right.
   - X closes the tab, + opens that URL in new tab.
 * You can filter the results by a query that you can type, like; "instagram" or "github".
 
-Keyboard Shortcuts:
+#### Keyboard Shortcuts:
 * Command+T: New Tab
 * Control+Space: Open Menu
 * Command+O: Focus Mode
