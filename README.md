@@ -1,16 +1,21 @@
 ## kaktüs
 
-A new minimalistic web browser designed. It's currently usable, [and there is a lot to do](#roadmap). 
+A new minimalistic web browser. It's currently usable, [and there is a lot to do](#roadmap).
+
+* [Download](#download)
+* [How It Works](#how-it-works)
+* [Roadmap](#roadmap)
+* [Development](#development)
 
 ![](https://cldup.com/6jOWAjYdpo.png)
 
-## Try It
-
-Download:
+## Download
 * [OSX](https://www.dropbox.com/s/wwkj8c93s9ieijl/Kakt%C3%BCs-darwin-x64.zip?dl=0) (44MB)
 
-How It Works:
-* Tabbing menu shows both tabs and history items. They look almost same.
+## How It Works
+![](https://cldup.com/wDadS2XGrb.gif)
+
+* Tabbing menu shows both tabs and history items. They look same at first look.
 * When you hover them or select with arrow buttons, you'll see;
   - Tabs appear as blue, there is an X button on the right
   - History items appear as pink, there is a + button on the right.
