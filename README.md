@@ -7,7 +7,7 @@ A new minimalistic web browser designed. It's currently usable, [and there is a 
 ## Try It
 
 Download:
-* [OSX]()
+* [OSX](https://www.dropbox.com/s/wwkj8c93s9ieijl/Kakt%C3%BCs-darwin-x64.zip?dl=0) (44MB)
 
 How It Works:
 * Tabbing menu shows both tabs and history items. They look almost same.
