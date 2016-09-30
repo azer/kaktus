@@ -61,3 +61,7 @@ Kaktüs is built with [choo](https://github.com/yoshuawuyts/choo) and [electron]
 $ make dev
 $ make start # and make stop kills the process
 ```
+
+## Logo
+
+I'm temporarily using [a cactus image I found on Dribble](https://dribbble.com/shots/1842263-Cactus) as a logo.
