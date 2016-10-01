@@ -2,7 +2,9 @@ PID=/tmp/kaktus-dev.pid
 .PHONY: all
 
 .PHONY: build
-build:
+build: build-js build-css
+
+build-js:
 	@echo "  🛠  Building..."
 	#@./node_modules/.bin/browserify ui/index.js | uglifyjs -cm > build/min.js
 	@./node_modules/.bin/browserify src/app/index.js > build/min.js

@@ -58,7 +58,7 @@ function view (wm) {
 }
 
 function inspectKaktus (wm) {
-  if (!wm.developerMode) return;
+  if (!wm.developerMode) return {}
 
   return {
     label: 'Inspect Kaktüs',

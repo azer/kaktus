@@ -28,7 +28,9 @@ module.exports = {
   zoomIn: withWebView(zoomIn),
   zoomOut: withWebView(zoomOut),
   resetZoom: withWebView(resetZoom),
-  openDevTools: withWebView(openDevTools)
+  openDevTools: withWebView(openDevTools),
+  findInPage: withWebView(findInPage),
+  quitFindInPage: withWebView(quitFindInPage)
 }
 
 function start (payload, state, send, done) {
@@ -254,11 +256,11 @@ function forward (webview) {
   webview.goForward();
 }
 
-function reload (webview, tab, send, done) {
+function reload (webview, payload, send, done) {
   webview.reloadIgnoringCache();
 
   send('tabs:update', {
-    tab: tab,
+    tab: payload.tab,
     props: {
       error: null
     }
@@ -269,33 +271,33 @@ function stop (webview) {
   webview.stop();
 }
 
-function print (webview, tab, send, done) {
+function print (webview, payload, send, done) {
   webview.print();
 }
 
-function zoomIn (webview, tab) {
-  if (tab.zoomLevel >= MAX_ZOOM_LEVEL) {
+function zoomIn (webview, payload) {
+  if (paylod.tab.zoomLevel >= MAX_ZOOM_LEVEL) {
     return
   }
 
-  tab.zoomLevel += ZOOM_INCR_VAL;
+  payload.tab.zoomLevel += ZOOM_INCR_VAL;
 
-  webview.setZoomLevel(tab.zoomLevel)
+  webview.setZoomLevel(payload.tab.zoomLevel)
 }
 
-function zoomOut (webview, tab) {
-  if (tab.zoomLevel <= MIN_ZOOM_LEVEL) {
+function zoomOut (webview, payload) {
+  if (payload.tab.zoomLevel <= MIN_ZOOM_LEVEL) {
     return
   }
 
-  tab.zoomLevel -= ZOOM_INCR_VAL;
+  payload.tab.zoomLevel -= ZOOM_INCR_VAL;
 
-  webview.setZoomLevel(tab.zoomLevel)
+  webview.setZoomLevel(payload.tab.zoomLevel)
 }
 
-function resetZoom (webview, tab) {
-  tab.zoomLevel = DEFAULT_ZOOM_LEVEL
-  webview.setZoomLevel(tab.zoomLevel)
+function resetZoom (webview, payload) {
+  payload.tab.zoomLevel = DEFAULT_ZOOM_LEVEL
+  webview.setZoomLevel(payload.tab.zoomLevel)
 }
 
 function openDevTools (webview) {
@@ -303,11 +305,11 @@ function openDevTools (webview) {
 }
 
 function setAudioMuted (bool) {
-  return function (webview, tab, send, done) {
+  return function (webview, payload, send, done) {
     webview.setAudioMuted(bool)
 
     send('tabs:update', {
-      tab,
+      tab: payload.tab,
       props: {
         isMuted: bool
       }
@@ -315,14 +317,29 @@ function setAudioMuted (bool) {
   }
 }
 
+function findInPage (webview, payload) {
+  webview.findInPage(payload.query)
+}
+
+function quitFindInPage (webview, payload) {
+  webview.stopFindInPage({
+    action: 'clearSelection'
+  })
+}
+
 function withWebView (method) {
   return function (payload, state, send, done) {
-    const id = payload && payload.tab ? payload.tab.id : state.selectedId
-    const tab = state[id]
+    if (!payload) {
+      payload = {}
+    }
 
-    var webview = document.querySelector(`#${id}`)
+    if (!payload.tab) {
+      payload.tab = state[state.selectedId]
+    }
+
+    var webview = document.querySelector(`#${payload.tab.id}`)
     if (!webview) return;
 
-    method(webview, tab, send, done);
+    method(webview, payload, send, done);
   }
 }

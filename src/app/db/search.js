@@ -15,13 +15,15 @@ function search (query, callback) {
 }
 
 function defaultResults (callback) {
+  const isUnique = _isUnique()
+
   embed(tabs.all, [likes, meta, history], function (error, result) {
     if (error) return callback(error)
 
     result = result.map(mapTab).filter(el => el)
 
     if (result.length >= 10) {
-      return callback(undefined, result.sort(sort))
+      return callback(undefined, result.sort(sort).filter(isUnique))
     }
 
     recent((error, rows) => {
@@ -35,9 +37,10 @@ function defaultResults (callback) {
         if (result.length >= 10) break
       }
 
-      return callback(undefined, result.filter(el => el).sort(sort))
+      return callback(undefined, result.filter(isUnique).sort(sort))
     })
   })
+
 }
 
 function recent (callback) {
@@ -119,4 +122,13 @@ function sort (a, b) {
   }
 
   return 0
+}
+
+function _isUnique () {
+  const dict = {}
+  return (row) => {
+    if (!row || !row.url || dict[row.url]) return false
+    dict[row.url] = true
+    return true
+  }
 }
