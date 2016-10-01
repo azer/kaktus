@@ -11,7 +11,7 @@ A new minimalistic web browser. It's currently usable, [and there is a lot to do
 ![](https://cldup.com/6jOWAjYdpo.png)
 
 ## Download
-* [OSX](https://www.dropbox.com/s/wwkj8c93s9ieijl/Kakt%C3%BCs-darwin-x64.zip?dl=0) (44MB)
+* [OSX](https://cldup.com/zOWmBx8thO.zip) (44MB)
 
 ## How It Works
 ![](https://cldup.com/wDadS2XGrb.gif)
@@ -45,9 +45,7 @@ Known issues:
 
 Missing:
 * Context menu
-* Find-in-page UI
 * Download manager
-* A website
 
 Improvements:
 * Making search better (it currently can only match word-by-word)
