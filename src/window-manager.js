@@ -29,7 +29,7 @@ class WindowManager {
     this.counter = 0
     this.focusMode = false;
     this.windows = [];
-    this.developerMode = process.env.DEV_MODE=== 'ON';
+    this.developerMode = true //process.env.DEV_MODE=== 'ON';
 
     this.app.on('ready', () => {
       this.createWindow()

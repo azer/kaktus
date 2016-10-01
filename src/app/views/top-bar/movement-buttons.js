@@ -1,6 +1,7 @@
 const html = require('choo/html')
 const forwardButton = movementButton('forward')
 const backButton = movementButton('back')
+const findInPageButtons = require("../find-in-page").buttons
 
 const audioButton = (state, prev, send) => html`
 <div class="button audio ${state.isMuted ? "muted" : ""} active"
@@ -11,13 +12,19 @@ const audioButton = (state, prev, send) => html`
 </div>
 `
 
-const movementButtons = (state, prev, send) => html`
-<div class="buttons movement-buttons">
-  ${forwardButton(state.canGoForward, e => forward(state, prev, send)) }
-  ${backButton(state.canGoBack, e => back(state, prev, send)) }
-  ${state.isPlayingMedia ? audioButton(state, prev, send) : null}
-</div>
-`
+const movementButtons = (state, prev, send) => {
+  if (state.findInPage.enabled) return findInPageButtons(state, prev, send)
+
+  const selectedTab = state.tabs[state.tabs.selectedId]
+
+  return html`
+  <div class="buttons movement-buttons">
+    ${forwardButton(selectedTab.canGoForward, e => forward(state, prev, send)) }
+    ${backButton(selectedTab.canGoBack, e => back(state, prev, send)) }
+    ${selectedTab.isPlayingMedia ? audioButton(state, prev, send) : null}
+  </div>
+  `
+}
 
 module.exports = movementButtons
 
@@ -29,7 +36,6 @@ function movementButton (type) {
     ${icon}
   </div>`
 }
-
 
 function mute (state, send) {
   return function () {

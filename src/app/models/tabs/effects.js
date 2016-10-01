@@ -30,7 +30,9 @@ module.exports = {
   resetZoom: withWebView(resetZoom),
   openDevTools: withWebView(openDevTools),
   findInPage: withWebView(findInPage),
-  quitFindInPage: withWebView(quitFindInPage)
+  quitFindInPage: withWebView(quitFindInPage),
+  findNextInPage: withWebView(findNextInPage),
+  findPreviousInPage: withWebView(findPreviousInPage)
 }
 
 function start (payload, state, send, done) {
@@ -321,10 +323,22 @@ function findInPage (webview, payload) {
   webview.findInPage(payload.query)
 }
 
-function quitFindInPage (webview, payload) {
-  webview.stopFindInPage({
-    action: 'clearSelection'
+function findNextInPage (webview, payload) {
+  webview.findInPage(payload.query, {
+    findNext: true,
+    forward: true
   })
+}
+
+function findPreviousInPage (webview, payload) {
+  webview.findInPage(payload.query, {
+    findNext: true,
+    forward: false
+  })
+}
+
+function quitFindInPage (webview) {
+  webview.stopFindInPage('clearSelection')
 }
 
 function withWebView (method) {

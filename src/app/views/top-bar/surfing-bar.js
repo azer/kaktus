@@ -17,7 +17,7 @@ const surfingBar = (state, prev, send) => {
 
   return html`
   <div class="top-bar surfing-bar">
-    ${movementButtons(state.tabs[state.tabs.selectedId], prev, send)}
+    ${movementButtons(state, prev, send)}
     ${createTitleBar(text, onClick)(state, prev, send)}
     ${(state, prev, send)}
   </div>

@@ -68,7 +68,7 @@
   display: none;
 }
 
-.title-bar .like-button, .title-bar .create-tab-button {
+.title-bar .like-button, .title-bar .create-tab-button, .title-bar .quit-find-in-page-button {
   position: absolute;;
   right: 7px;
   top: 7px;
@@ -121,7 +121,7 @@
 
  .title-bar.find-in-page .input-caption {
    position: absolute;
-   color: #aaa;
+   color: #666;
    font: 400 16px "San Francisco", Helvetica;
    margin: 0 0 0 25px;
  }

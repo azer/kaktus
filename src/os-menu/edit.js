@@ -43,7 +43,7 @@ function edit (wm) {
       {
         label: 'Find',
         accelerator: 'CmdOrCtrl+F',
-        click: wm.sendFn('general:findInPage')
+        click: wm.sendFn('findInPage:enable')
       }
     ]
   }

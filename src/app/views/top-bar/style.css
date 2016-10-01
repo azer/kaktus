@@ -72,3 +72,8 @@
 .top-bar .buttons .button.active {
   color: #888;
 }
+
+.top-bar .find-in-page-buttons .button {
+  font-size: 16px;
+  padding: 7px 10px 0 10px;
+}

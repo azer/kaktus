@@ -1,9 +1,7 @@
 module.exports = {
   setPrivateMode,
   setPartitionName,
-  setFocusMode,
-  setFindInPageMode,
-  setFindInPageQuery
+  setFocusMode
 };
 
 function setPrivateMode (value) {
@@ -21,17 +19,5 @@ function setPartitionName (name) {
 function setFocusMode (value) {
   return {
     focusMode: value
-  }
-}
-
-function setFindInPageMode (value) {
-  return {
-    findInPageMode: value
-  }
-}
-
-function setFindInPageQuery (value) {
-  return {
-    findInPageQuery: value
   }
 }

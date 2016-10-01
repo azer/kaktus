@@ -3,13 +3,13 @@ const icon = require("./page-icon")
 const titleFromURL = require("title-from-url")
 const likeButton = require("./like-button")
 const createTabButton = require("./create-tab")
-const findInPageBar = require("./find-in-page")
+const findInPageBar = require("../find-in-page").bar
 
 module.exports = createTitleBar
 
 function createTitleBar (children, onClick) {
   return (state, prev, send) => {
-    if (state.general.findInPageMode) return findInPageBar(state, prev, send)
+    if (state.findInPage.enabled) return findInPageBar(state, prev, send)
 
     const selectedTab = state.tabs[state.tabs.selectedId]
 

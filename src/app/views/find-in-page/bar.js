@@ -12,18 +12,21 @@ const caption = (state, prev, send) => html`
 </div>
 `
 
-const button = (state, prev, send) => html``
+const button = (state, prev, send) => html`
+<div class="quit-find-in-page-button" onclick=${() => send('findInPage:disable')}>
+    <i class="fa fa-times" aria-hidden="true"></i>
+</div>`
 
 const input = (state, prev, send) => html`
   <input class="query"
-    value='${state.general.findInPageQuery}'
-    placeholder='${state.general.findInPageQuery || ""}'
+    value='${state.findInPage.query}'
+    placeholder='${state.findInPage.query || ""}'
     onkeyup=${onKeyUp(state, prev, send)}
     oninput=${onInput(state, prev, send)}
     x-webkit-speech />
 `
 
-const findInPage = (state, prev, send) => html`
+const bar = (state, prev, send) => html`
 <div class="title-bar find-in-page">
   ${icon(state, prev, send)}
   ${caption(state, prev, send)}
@@ -32,10 +35,16 @@ const findInPage = (state, prev, send) => html`
 </div>
 `
 
-module.exports = findInPage
+module.exports = bar
 
 function onInput (state, prev, send) {
   return function (e) {
+    send('findInPage:setQuery', e.target.value)
+
+    if (e.target.value.trim() === '') {
+      return send('tabs:quitFindInPage')
+    }
+
     send('tabs:findInPage', {
       query: e.target.value
     })
@@ -45,8 +54,13 @@ function onInput (state, prev, send) {
 function onKeyUp (state, prev, send) {
   return function (e) {
     if (e.keyCode === 27) {
-      send('tabs:quitFindInPage')
-      return send('general:setFindInPageMode', false)
+      return send('findInPage:disable')
+    }
+
+    if (e.keyCode === 13) {
+      return send('tabs:findNextInPage', {
+        query: e.target.value
+      })
     }
   }
 }

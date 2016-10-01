@@ -18,12 +18,11 @@ const input = (state, prev, send) => {
 }
 
 const searchBar = (state, prev, send) => {
-  const selectedTab = state.tabs[state.tabs.selectedId]
   const titleBar = createTitleBar(input(state, prev, send))
 
   return html`
     <div class="top-bar navigation-bar" onclick=${onBlur(state, prev, send)}>
-      ${movementButtons(selectedTab, prev, send)}
+      ${movementButtons(state, prev, send)}
       ${titleBar(state, prev, send)}
       ${searchResults(state, prev, send)}
     </div>`
@@ -74,7 +73,6 @@ function onKeyUp (tab, prev, send) {
     }
   }
 }
-
 
 function onInput (tab, prev, send) {
   const search = debounce(_search, 300)

@@ -1,0 +1,21 @@
+ .title-bar.find-in-page .input-caption {
+   position: absolute;
+   color: #888;
+   font: 500 16px "San Francisco", Helvetica;
+   margin: 0 0 0 25px;
+ }
+
+  .title-bar.find-in-page .query {
+    width: calc(100% - 117px);
+    padding-left: 117px;
+  }
+
+.title-bar .quit-find-in-page-button {
+   font-size: 18px;
+   color: #888;
+   top: 5px;
+ }
+
+ .title-bar .quit-find-in-page-button:hover {
+   color: #666;
+ }
