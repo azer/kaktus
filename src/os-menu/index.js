@@ -26,7 +26,9 @@ function create (wm) {
 function dev (wm, template) {
   if (!wm.developerMode) return template
 
-  template[3].submenu.push({ separator: true })
+  template[3].submenu.push({
+    type: 'separator'
+  })
   template[3].submenu.push({
     label: 'Inspect Kaktüs',
     click: (item, focusedWindow) => {
