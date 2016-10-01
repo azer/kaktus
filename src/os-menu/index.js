@@ -17,7 +17,26 @@ function create (wm) {
     help
   ].map(fn => fn(wm))
 
-  const template = osx(wm, items)
-  const menu = Menu.buildFromTemplate(items)
+  const template = dev(wm, osx(wm, items))
+
+  const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
+}
+
+function dev (wm, template) {
+  if (!wm.developerMode) return template
+
+  template[3].submenu.push({
+    type: 'separator'
+  })
+  template[3].submenu.push({
+    label: 'Inspect Kaktüs',
+    click: (item, focusedWindow) => {
+      if (focusedWindow) focusedWindow.toggleDevTools()
+    }
+  })
+
+
+
+  return template
 }

@@ -43,9 +43,7 @@ function edit (wm) {
       {
         label: 'Find',
         accelerator: 'CmdOrCtrl+F',
-        click: function (item, window) {
-          wm.send('tabs:findInPage')
-        }
+        click: wm.sendFn('findInPage:enable')
       }
     ]
   }

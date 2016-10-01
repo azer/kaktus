@@ -51,19 +51,7 @@ function view (wm) {
         label: 'Developer Tools',
         accelerator: process.platform === 'darwin' ? 'Cmd+Alt+I' : 'Ctrl+Shift+I',
         click: wm.sendFn('tabs:openDevTools')
-      },
-      inspectKaktus(wm)
+      }
     ]
-  }
-}
-
-function inspectKaktus (wm) {
-  if (!wm.developerMode) return;
-
-  return {
-    label: 'Inspect Kaktüs',
-    click: (item, focusedWindow) => {
-      if (focusedWindow) focusedWindow.toggleDevTools()
-    }
   }
 }

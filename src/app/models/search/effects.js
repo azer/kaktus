@@ -1,13 +1,13 @@
 const db = require("../../db")
+const input = require("../../input")
 
 module.exports = {
-  selectInput,
-  focusInput,
   open,
   quit,
   search,
   up,
-  down
+  down,
+  selectInput: input.select.bind(null, 'url')
 }
 
 function open (payload, state, send, done) {
@@ -17,9 +17,9 @@ function open (payload, state, send, done) {
   send('search:setAsOpen', done)
 
   if (payload && payload.select) {
-    selectInput()
+    input.select('url')
   } else {
-    focusInput()
+    input.focus('url')
   }
 
   if (payload.search !== undefined) {
@@ -79,20 +79,4 @@ function down (payload, state, send, done) {
   send('search:setPreview', next, done)
   send('search:setQuery', next.url, done)
   send('search:selectInput', send)
-}
-
-function selectInput () {
-  getInputElement(el => el.select())
-}
-
-function focusInput () {
-  getInputElement(el => el.focus())
-}
-
-function getInputElement (callback) {
-  setTimeout(function tryAgain () {
-    var input = document.querySelector("input.url")
-    if (!input) return setTimeout(tryAgain, 5)
-    callback(input)
-  }, 5)
 }

@@ -2,7 +2,7 @@ const { BrowserWindow, ipcMain } = require('electron')
 const createOSMenu = require('./os-menu')
 
 const defaultOptions = {
-  title: "Kaktus",
+  title: "Kaktüs",
   width: 1000,
   height: 600,
   titleBarStyle: 'hidden-inset',
@@ -13,7 +13,7 @@ const defaultOptions = {
 }
 
 const privateOptions = {
-  title: "Kaktus Private",
+  title: "Kaktüs Private",
   width: 1000,
   height: 600,
   titleBarStyle: 'hidden-inset',
@@ -38,6 +38,8 @@ class WindowManager {
 
     this.app.on('window-all-closed', this.onWindowsClose.bind(this))
     this.app.on('activate', this.onActivate.bind(this))
+
+
   }
 
   _createWindow (options, actions) {
