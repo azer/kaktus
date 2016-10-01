@@ -11,7 +11,7 @@ A new minimalistic web browser. It's currently usable, [and there is a lot to do
 ![](https://cldup.com/6jOWAjYdpo.png)
 
 ## Download
-* [OSX](https://cldup.com/zOWmBx8thO.zip) (44MB)
+* [OSX](https://cldup.com/a34ZFYO_rI.zip) (44MB)
 
 ## How It Works
 ![](https://cldup.com/wDadS2XGrb.gif)
