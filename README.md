@@ -53,6 +53,10 @@ Improvements:
 * Showing screenshot on the tabbing menu (saving it to DB may be?)
 * Saving and recovering screen size & positions
 
+Windows & Linux:
+* The Windows build looks ugly. I don't have time and tools to fix it yet.
+* I haven't seen it on Linux yet.
+
 ## Development
 
 #### Building From Source
