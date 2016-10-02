@@ -46,6 +46,7 @@ Known issues:
 Missing:
 * Context menu
 * Download manager
+* PDF Preview
 
 Improvements:
 * Making search better (it currently can only match word-by-word)
