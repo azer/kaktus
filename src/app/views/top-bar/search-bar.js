@@ -62,7 +62,7 @@ function onKeyUp (state, prev, send) {
     if (e.keyCode === 13) {
       send('search:quit')
 
-      if (state.search.preview.url === state.search.query && state.search.preview.tab && state.search.preview.tab.id != state.tabs.selectedId) {
+      if (selectedTab(state)) {
         return send('tabs:select', state.search.preview.tab.id)
       }
 
@@ -100,4 +100,14 @@ function cleanURL (url) {
     .trim()
     .replace(/^\w+:\/\//, '')
     .replace(/(\/|\?|\&)*$/, '')
+}
+
+function selectedTab (state) {
+  const preview = state.search.preview
+  if (!preview) return false
+
+  const isPreviewTab = preview.tab
+  if (!isPreviewTab) return false
+
+  return state.search.preview.tab.id !== state.tabs.selectedId
 }
