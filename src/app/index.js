@@ -1,13 +1,13 @@
 const choo = require("choo")
 const html = require("choo/html")
-const general = require("./models/general");
+const general = require("./models/general")
 const tabs = require("./models/tabs")
 const search = require("./models/search")
 const findInPage = require("./models/find-in-page")
 
 createMainApp((error, app) => {
-  if (error) throw error;
-  document.body.appendChild(app.start());
+  if (error) throw error
+  document.body.appendChild(app.start())
 })
 
 function createMainApp (callback) {

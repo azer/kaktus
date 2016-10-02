@@ -1,4 +1,4 @@
-module.exports = help;
+module.exports = help
 
 function help () {
   return {

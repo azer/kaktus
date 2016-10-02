@@ -6,7 +6,7 @@ const BUTTON_CLASSES = [
   'row-button'
 ]
 
-module.exports = isButton;
+module.exports = isButton
 
 function isButton (el) {
   let i = BUTTON_CLASSES.length

@@ -6,5 +6,5 @@ function get () {
     preview: null,
     query: '',
     results: []
-  };
+  }
 }

@@ -24,7 +24,7 @@ class Tab {
     this.isNew = url.trim() === ''
     this.isMuted = false
 
-    this.zoomLevel = 0;
+    this.zoomLevel = 0
   }
 }
 

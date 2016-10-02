@@ -2,7 +2,7 @@ module.exports = {
   clean,
   meta,
   protocol
-};
+}
 
 function protocol (url) {
   const match = url.match(/(^\w+):\/\//)

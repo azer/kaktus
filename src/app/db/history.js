@@ -1,5 +1,5 @@
 const db = require("./db")
-const urls = require("./urls");
+const urls = require("./urls")
 const store = db.store('history', {
   key: { keyPath: "url" },
   indexes: [
@@ -15,7 +15,7 @@ module.exports = {
   visit,
   get,
   all
-};
+}
 
 function visit (url, callback) {
   save({
@@ -30,7 +30,7 @@ function save (props, callback) {
   store.get(props.url, function (error, existing) {
     if (error) return callback(error)
     if (existing) {
-      props.counter = (existing.counter || 0) + 1;
+      props.counter = (existing.counter || 0) + 1
       return store.update(props, callback)
     }
 

@@ -2,16 +2,16 @@ module.exports = listOfTabs
 module.exports.allOpenTabs = allOpenTabs
 
 function listOfTabs (state, includeClosedRows) {
-  state = state.tabs || state;
-  let result = [];
+  state = state.tabs || state
+  let result = []
 
   for (let key in state) {
     if (/^f-/.test(key) && (state[key] || includeClosedRows)) {
-      result.push(state[key]);
+      result.push(state[key])
     }
   }
 
-  return result;
+  return result
 }
 
 function allOpenTabs (state) {
@@ -19,5 +19,5 @@ function allOpenTabs (state) {
 }
 
 function isNotNew (tab) {
-  return !tab.isNew;
+  return !tab.isNew
 }

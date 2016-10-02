@@ -52,12 +52,12 @@ const templates = {
   '-109': error109,
   '-501': error501,
   'crash': crash
-};
+}
 
 module.exports = render
 
 function render (error, tab, prev, send) {
-  var template = templates[error.code] || generic;
+  var template = templates[error.code] || generic
 
   return html`
     <div class="error">
@@ -68,7 +68,7 @@ function render (error, tab, prev, send) {
         <h3>${error.code} - ${error.description}</h3>
       </div>
     </div>
-  `;
+  `
 }
 
 function props (error, tab) {
@@ -77,7 +77,7 @@ function props (error, tab) {
     url: error.url,
     tab,
     error
-  };
+  }
 }
 
 function reload (tab, send) {
@@ -89,5 +89,5 @@ function reload (tab, send) {
 }
 
 function hostname (url) {
-  return parseURL(url).hostname;
+  return parseURL(url).hostname
 }

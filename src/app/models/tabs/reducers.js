@@ -25,41 +25,41 @@ function setSelectedId (selectedId) {
 }
 
 function update (payload) {
-  return changeTab(payload.tab, payload.props);
+  return changeTab(payload.tab, payload.props)
 }
 
 function startLoading (payload) {
-  return changeTab(payload.tab, payload.props);
+  return changeTab(payload.tab, payload.props)
 }
 
 function stopLoading (payload) {
-  return changeTab(payload.tab, payload.props);
+  return changeTab(payload.tab, payload.props)
 }
 
 function changeTab (tab, updates) {
-  var result = {};
-  var changed = false;
-  result[tab.id] = tab;
+  var result = {}
+  var changed = false
+  result[tab.id] = tab
 
   for (let key in updates) {
-    if (tab[key] === updates[key]) continue;
+    if (tab[key] === updates[key]) continue
     result[tab.id][key] = updates[key]
-    changed = true;
+    changed = true
   }
 
-  if (!changed) return;
+  if (!changed) return
 
-  return result;
+  return result
 }
 
 function setTabAsClosed (id) {
-  var result = {};
-  result[id] = null;
-  return result;
+  var result = {}
+  result[id] = null
+  return result
 }
 
 function create (options) {
-  var result = {};
+  var result = {}
   var tab = new Tab(options.id, options.url)
 
   if (options.select) {
@@ -73,14 +73,14 @@ function create (options) {
 
 function fixURL (input) {
   if (isSearchQuery(input)) {
-    input = `https://google.com/search?q=${input}`;
+    input = `https://google.com/search?q=${input}`
   }
 
   if (!/^http/.test(input)) {
-    return `http://${input}`;
+    return `http://${input}`
   }
 
-  return input;
+  return input
 }
 
 function newURLProps (url) {
@@ -94,7 +94,7 @@ function newURLProps (url) {
     isDOMReady: false,
     isLiked: false,
     isNew: false
-  };
+  }
 }
 
 function isSearchQuery (input) {

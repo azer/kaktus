@@ -1,5 +1,5 @@
 const html = require('choo/html')
-const debounce = require("debounce-fn");
+const debounce = require("debounce-fn")
 const movementButtons = require("./movement-buttons")
 const searchResults = require("../search-results")
 const createTitleBar = require('../title-bar')
@@ -32,12 +32,12 @@ module.exports = searchBar
 
 function onBlur (state, prev, send) {
   return function (event) {
-    var classes = event.target.classList;
+    var classes = event.target.classList
     if (!classes.contains("navigation-bar") && !classes.contains("movement-buttons")) {
-      return;
+      return
     }
 
-    if (state.tabs[state.tabs.selectedId].isNew) return;
+    if (state.tabs[state.tabs.selectedId].isNew) return
 
     send('search:quit')
   }

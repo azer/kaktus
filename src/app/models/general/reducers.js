@@ -2,7 +2,7 @@ module.exports = {
   setPrivateMode,
   setPartitionName,
   setFocusMode
-};
+}
 
 function setPrivateMode (value) {
   return {

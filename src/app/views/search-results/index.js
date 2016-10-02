@@ -2,7 +2,7 @@ const html = require('choo/html')
 const preview = require("./preview")
 const closeButton = require("./close-button")
 const openInNewTabButton = require("./open-in-new-tab-button")
-const isButton = require("../is-button");
+const isButton = require("../is-button")
 
 const results = (state, prev, send) => {
   const rows = filter(state.search.results)

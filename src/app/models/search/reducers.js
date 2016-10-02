@@ -4,12 +4,12 @@ module.exports = {
   setResults,
   setAsOpen,
   setAsClosed
-};
+}
 
 function setPreview (tab) {
   return {
     preview: tab
-  };
+  }
 }
 
 function setQuery (query) {

@@ -1,6 +1,6 @@
 const name = 'Kaktus'
 
-module.exports = about;
+module.exports = about
 
 function about (wm) {
   return {

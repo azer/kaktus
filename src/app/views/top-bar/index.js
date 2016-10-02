@@ -1,4 +1,4 @@
-const tabs = require("../../models/tabs");
+const tabs = require("../../models/tabs")
 const search = require('./search-bar')
 const surfing = require('./surfing-bar')
 

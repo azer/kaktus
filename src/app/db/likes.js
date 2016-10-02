@@ -1,5 +1,5 @@
 const db = require("./db")
-const urls = require("./urls");
+const urls = require("./urls")
 const store = db.store('likes', {
   key: { keyPath: "url" }
 })
@@ -11,7 +11,7 @@ module.exports = {
   like,
   unlike,
   get
-};
+}
 
 function like (url, callback) {
   store.add({

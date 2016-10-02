@@ -47,12 +47,12 @@ class WindowManager {
     const win = new BrowserWindow(options)
     win.loadURL(`file://${__dirname}/../build/${ this.developerMode ? "index.dev" : "index" }.html`)
 
-    const ind = this.windows.push(win) - 1;
+    const ind = this.windows.push(win) - 1
     this.counter++
 
     win.on('closed', () => {
-      this.windows[ind] = null;
-      this.counter--;
+      this.windows[ind] = null
+      this.counter--
     })
 
     actions.push({ name: 'general:setFocusMode', payload: this.focusMode })

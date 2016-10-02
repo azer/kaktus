@@ -251,30 +251,30 @@ function updateURLMeta (payload, state, send, done) {
 }
 
 function back (webview) {
-  webview.goBack();
+  webview.goBack()
 }
 
 function forward (webview) {
-  webview.goForward();
+  webview.goForward()
 }
 
 function reload (webview, payload, send, done) {
-  webview.reloadIgnoringCache();
+  webview.reloadIgnoringCache()
 
   send('tabs:update', {
     tab: payload.tab,
     props: {
       error: null
     }
-  }, done);
+  }, done)
 }
 
 function stop (webview) {
-  webview.stop();
+  webview.stop()
 }
 
 function print (webview, payload, send, done) {
-  webview.print();
+  webview.print()
 }
 
 function zoomIn (webview, payload) {
@@ -282,7 +282,7 @@ function zoomIn (webview, payload) {
     return
   }
 
-  payload.tab.zoomLevel += ZOOM_INCR_VAL;
+  payload.tab.zoomLevel += ZOOM_INCR_VAL
 
   webview.setZoomLevel(payload.tab.zoomLevel)
 }
@@ -292,7 +292,7 @@ function zoomOut (webview, payload) {
     return
   }
 
-  payload.tab.zoomLevel -= ZOOM_INCR_VAL;
+  payload.tab.zoomLevel -= ZOOM_INCR_VAL
 
   webview.setZoomLevel(payload.tab.zoomLevel)
 }
@@ -352,8 +352,8 @@ function withWebView (method) {
     }
 
     var webview = document.querySelector(`#${payload.tab.id}`)
-    if (!webview) return;
+    if (!webview) return
 
-    method(webview, payload, send, done);
+    method(webview, payload, send, done)
   }
 }
