@@ -14,6 +14,7 @@ module.exports = {
   newTab,
   select,
   close,
+  closeSelectedTab,
   updateURL,
   updateURLMeta,
   like,
@@ -98,6 +99,10 @@ function close (id, state, send, done) {
     send('tabs:setTabAsClosed', id, done)
     send('search:search', { query: '' }, done)
   })
+}
+
+function closeSelectedTab (payload, state, send, done) {
+  close(state.selectedId, state, send, done)
 }
 
 function newTab (payload, state, send, done) {

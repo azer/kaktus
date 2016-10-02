@@ -6,7 +6,6 @@ build: build-js build-css
 
 build-js:
 	@echo "  🛠  Building..."
-	#@./node_modules/.bin/browserify ui/index.js | uglifyjs -cm > build/min.js
 	@./node_modules/.bin/browserify src/app/index.js > build/min.js
 
 build-css:
@@ -33,11 +32,12 @@ stop:
 clean:
 	@rm -rf dist
 
-osx:
+osx: build
 	@./node_modules/.bin/electron-packager . Kaktüs --out=dist/osx --platform=darwin --arch=x64 --icon=kaktus.icns --ignore=dist --ignore=README.md --ignore=.gitignore
 
-linux:
+linux: build
 	@./node_modules/.bin/electron-packager . Kaktüs --out=dist/linux --platform=linux --arch=x64 --icon=kaktus.icns --ignore=dist --ignore=README.md --ignore=.gitignore
 
-win:
+win: build
+	@export PATH=$PATH:/Applications/Wine.app/Contents/Resources/bin
 	@./node_modules/.bin/electron-packager . Kaktüs --out=dist/win32 --platform=win32 --arch=x64 --icon=kaktus.icns --ignore=dist --ignore=README.md --ignore=.gitignore

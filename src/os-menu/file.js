@@ -33,6 +33,11 @@ function file (wm) {
         }
       },
       {
+        label: 'Close Tab',
+        accelerator: 'CmdOrCtrl+w',
+        click: wm.sendFn('tabs:closeSelectedTab')
+      },
+      {
         type: 'separator'
       },
       {
