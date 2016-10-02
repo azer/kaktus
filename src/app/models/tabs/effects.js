@@ -9,7 +9,7 @@ const DEFAULT_ZOOM_LEVEL = 0
 const ZOOM_INCR_VAL = 1
 
 module.exports = {
-  start,
+  recoverTabs,
   go,
   newTab,
   select,
@@ -34,10 +34,6 @@ module.exports = {
   quitFindInPage: withWebView(quitFindInPage),
   findNextInPage: withWebView(findNextInPage),
   findPreviousInPage: withWebView(findPreviousInPage)
-}
-
-function start (payload, state, send, done) {
-  recoverTabs(payload, state, send, done)
 }
 
 function recoverTabs (payload, state, send, done) {
@@ -74,6 +70,9 @@ function recoverTabs (payload, state, send, done) {
     })
 
     send('tabs:setState', newState, done)
+    if (newState[newState.selectedId].isNew) {
+      send('search:open', { search: '' }, done)
+    }
   })
 }
 

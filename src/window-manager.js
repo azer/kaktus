@@ -58,7 +58,7 @@ class WindowManager {
     actions.push({ name: 'general:setFocusMode', payload: this.focusMode })
 
     if (this.counter === 1) {
-      actions.push({ name: 'tabs:start', payload: null })
+      actions.push({ name: 'tabs:recoverTabs', payload: null })
     } else {
       actions.push({ name: 'tabs:newTab', payload: null })
     }

@@ -12,11 +12,5 @@ function topbar (state, prev, send) {
     view = search
   }
 
-  if (!state.search.isOpen && state.tabs[state.tabs.selectedId].isNew) {
-    send('search:open', {
-      search: ''
-    })
-  }
-
   return view(state, prev, send)
 }
