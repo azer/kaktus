@@ -10,8 +10,11 @@ A new minimalistic web browser. It's currently usable, [and there is a lot to do
 
 ![](https://cldup.com/6jOWAjYdpo.png)
 
-## Download
-* [OSX](https://cldup.com/a34ZFYO_rI.zip) (44MB)
+## Download (40MB)
+
+* [OSX](https://github.com/kaktus/kaktus/releases/download/1.0.0/Kaktus-darwin-x64.zip)
+* [Linux](https://github.com/kaktus/kaktus/releases/download/1.0.0/Kaktus-linux-x64.zip)
+* [Windows](https://github.com/kaktus/kaktus/releases/download/1.0.0/Kaktus-win32-x64.zip)
 
 ## How It Works
 ![](https://cldup.com/wDadS2XGrb.gif)
