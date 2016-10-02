@@ -10,7 +10,7 @@ A new minimalistic web browser. It's currently usable, [and there is a lot to do
 
 ![](https://cldup.com/6jOWAjYdpo.png)
 
-## Download (40MB)
+## Download
 
 * [OSX](https://cldup.com/a34ZFYO_rI.zip)
 * [Linux](https://github.com/kaktus/kaktus/releases/download/1.0.0/Kaktus-linux-x64.zip)
@@ -32,6 +32,7 @@ Tabbing menu shows both tabs and history items. They look same at first look. Th
 * Command+O: Focus Mode
 * Shift+Command+F: Full Screen
 * Shift+Command+N: Open New Window with Privacy Mode
+* Command+W: Close Tab
 
 ## Roadmap
 
@@ -57,8 +58,7 @@ Improvements:
 * Saving and recovering screen size & positions
 
 Windows & Linux:
-* The Windows build looks ugly. I don't have time and tools to fix it yet.
-* I haven't seen it on Linux yet.
+* They don't look as nice as OSX builds do. Visual improvements are needed for both.
 
 ## Development
 
