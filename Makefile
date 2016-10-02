@@ -35,7 +35,6 @@ clean:
 
 osx:
 	@./node_modules/.bin/electron-packager . Kaktüs --out=dist/osx --platform=darwin --arch=x64 --icon=kaktus.icns --ignore=dist --ignore=README.md --ignore=.gitignore
-	@zip -r dist/kaktus-darwin-x64.zip dist/osx/Kaktüs-darwin-x64/
 
 linux:
 	@./node_modules/.bin/electron-packager . Kaktüs --out=dist/linux --platform=linux --arch=x64 --icon=kaktus.icns --ignore=dist --ignore=README.md --ignore=.gitignore

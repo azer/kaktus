@@ -11,7 +11,7 @@ const input = (state, prev, send) => {
     <input class="url"
       value='${cleanURL(state.search.query)}'
       placeholder='${selectedTab.url || "Search or type a website name"}'
-      onkeyup=${onKeyUp(selectedTab, prev, send)}
+      onkeyup=${onKeyUp(state, prev, send)}
       oninput=${onInput(selectedTab, prev, send)}
       x-webkit-speech />
   `
@@ -43,7 +43,7 @@ function onBlur (state, prev, send) {
   }
 }
 
-function onKeyUp (tab, prev, send) {
+function onKeyUp (state, prev, send) {
   return function (e) {
     if (e.keyCode === 38) {
       e.stopPropagation()
@@ -62,9 +62,13 @@ function onKeyUp (tab, prev, send) {
     if (e.keyCode === 13) {
       send('search:quit')
 
+      if (state.search.preview.url === state.search.query && state.search.preview.tab && state.search.preview.tab.id != state.tabs.selectedId) {
+        return send('tabs:select', state.search.preview.tab.id)
+      }
+
       return send('tabs:go', {
         url: e.target.value,
-        tab
+        tab: state.tabs[state.tabs.selectedId]
       })
     }
 

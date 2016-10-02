@@ -1,5 +1,6 @@
 const { BrowserWindow, ipcMain } = require('electron')
 const createOSMenu = require('./os-menu')
+const DEV_MODE = process.env.DEV_MODE === 'ON'
 
 const defaultOptions = {
   title: "Kaktüs",
@@ -8,7 +9,7 @@ const defaultOptions = {
   titleBarStyle: 'hidden-inset',
   icon: `file://${__dirname}/icon.png`,
   webPreferences: {
-    partition: 'persist:kaktus'
+    partition: DEV_MODE ? 'persist:kaktus-dev' : 'persist:kaktus'
   }
 }
 
@@ -27,9 +28,9 @@ class WindowManager {
   constructor (app) {
     this.app = app
     this.counter = 0
-    this.focusMode = false;
-    this.windows = [];
-    this.developerMode = process.env.DEV_MODE=== 'ON';
+    this.focusMode = false
+    this.windows = []
+    this.developerMode = DEV_MODE
 
     this.app.on('ready', () => {
       this.createWindow()
