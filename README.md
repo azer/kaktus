@@ -55,11 +55,35 @@ Improvements:
 
 ## Development
 
-Kaktüs is built with [choo](https://github.com/yoshuawuyts/choo) and [electron](https://github.com/electron/electron). To start it in development mode:
+#### Building From Source
+
+Install all dependencies:
 
 ```bash
+npm install
+```
+
+And get the build out for your target platform. Available platforms are:
+
+* osx
+* win
+* linux
+
+So, I usually run;
+
+```
+make osx
+```
+
+Command to get my build for OSX.
+
+#### Making Changes
+Kaktüs is built with [choo](https://github.com/yoshuawuyts/choo) and [electron](https://github.com/electron/electron). Here is the commands I run to start the development:
+
+```bash
+$ make watch-css
 $ make dev
-$ make start # and make stop kills the process
+$ make start
 ```
 
 ## Logo
