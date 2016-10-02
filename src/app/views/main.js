@@ -21,14 +21,14 @@ const main = (state, prev, send) => {
 
 const loading = (state, prev, send) => html`<main><div class="main-loading">Kaktüs</div></main>`
 
-module.exports = main;
+module.exports = main
 
 function ready (state, prev, send) {
   if (initialized) {
     return true
   }
 
-  initialized = true;
+  initialized = true
 
   ipcRenderer.on('action', function (event, message) {
     send(message.name, message.payload)
@@ -37,7 +37,7 @@ function ready (state, prev, send) {
 
 
 function privacyIcon (state) {
-  if (!state.general.privateMode) return;
+  if (!state.general.privateMode) return
 
   return html`<div class="private-mode-icon" title="Private Mode">
     <i class="fa fa-user-secret" aria-hidden="true"></i>

@@ -1,9 +1,9 @@
 const html = require('choo/html')
-const titleFromURL = require("title-from-url");
+const titleFromURL = require("title-from-url")
 const createTitleBar = require("../title-bar")
 const movementButtons = require("./movement-buttons")
 const tabs = require("../../models/tabs")
-const isButton = require("../is-button");
+const isButton = require("../is-button")
 
 
 const titleText = (tab, prev, send) => html`
@@ -24,14 +24,14 @@ const surfingBar = (state, prev, send) => {
   `
 }
 
-module.exports = surfingBar;
+module.exports = surfingBar
 
 function prettyTitle (original) {
   if (!original || !original.trim() || /^https?:\/\//.test(original)) {
     return titleFromURL(original)
   }
 
-  return original;
+  return original
 }
 
 function onClick (tab, state, prev, send) {

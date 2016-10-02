@@ -6,8 +6,8 @@ const webviews = (state, prev, send) => html`
 <div class="contents">
   ${listOfTabs(state, true).map(f => {
     if (!f) return html`<div class="content killed"></div>`
-    f.isSelected = f.id === state.tabs.selectedId;
-    f.partitionName = state.general.partitionName;
+    f.isSelected = f.id === state.tabs.selectedId
+    f.partitionName = state.general.partitionName
     return content(f, prev, send)
   })}
 </div>

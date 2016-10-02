@@ -1,6 +1,6 @@
-const loop = require("parallel-loop");
+const loop = require("parallel-loop")
 
-module.exports = embed;
+module.exports = embed
 
 function embed (fn, params, stores, callback) {
   if (arguments.length === 3) {

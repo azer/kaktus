@@ -4,7 +4,7 @@ const likes = require("./likes")
 const meta = require("./meta")
 const embed = require("./embed")
 
-module.exports = search;
+module.exports = search
 
 function search (query, callback) {
   if (query.trim().length === 0) {

@@ -1,4 +1,4 @@
-module.exports = view;
+module.exports = view
 
 function view (wm) {
   return {

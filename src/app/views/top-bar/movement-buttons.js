@@ -55,7 +55,7 @@ function unmute (state, send) {
 
 function forward (state, prev, send) {
   if (!state.canGoForward) {
-    return;
+    return
   }
 
   send('tabs:forward', {
@@ -65,7 +65,7 @@ function forward (state, prev, send) {
 
 function back (state, prev, send) {
   if (!state.canGoBack) {
-    return;
+    return
   }
 
   send('tabs:back', {

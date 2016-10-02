@@ -1,4 +1,4 @@
-module.exports = edit;
+module.exports = edit
 
 function edit (wm) {
   return {

@@ -9,32 +9,32 @@ const webview = (state, prev, send) => {
              partition=${state.partitionName}></webview>
   `
 
-  tree.addEventListener('did-start-loading', onLoadStateChange('start', state, tree, send));
-  tree.addEventListener('did-stop-loading', onLoadStateChange('stop', state, tree, send));
-  tree.addEventListener('did-fail-load', onLoadFails(state, tree, send));
+  tree.addEventListener('did-start-loading', onLoadStateChange('start', state, tree, send))
+  tree.addEventListener('did-stop-loading', onLoadStateChange('stop', state, tree, send))
+  tree.addEventListener('did-fail-load', onLoadFails(state, tree, send))
 
-  tree.addEventListener('crashed', onCrash(state, tree, send));
-  tree.addEventListener('gpu-crashed', onCrash(state, tree, send));
+  tree.addEventListener('crashed', onCrash(state, tree, send))
+  tree.addEventListener('gpu-crashed', onCrash(state, tree, send))
   tree.addEventListener('media-started-playing', onMediaStateChange(true, state, tree, send))
   tree.addEventListener('media-paused', onMediaStateChange(false, state, tree, send))
 
   tree.addEventListener('page-title-updated', (event) => updateURLMeta(send, state, {
     title: event.title
-  }));
+  }))
 
   tree.addEventListener('page-favicon-updated', (event) => updateURLMeta(send, state, {
     icon: event.favicons[0]
-  }));
+  }))
 
   tree.addEventListener('will-navigate', (event) => update(send, state, {
     url: event.url,
     title: titleFromURL(event.url),
     icon: '',
     image: null
-  }));
+  }))
 
-  tree.addEventListener('did-navigate', (event) => updateURL(send, state, event.url));
-  tree.addEventListener('did-navigate-in-page', (event) => updateURL(send, state, event.url));
+  tree.addEventListener('did-navigate', (event) => updateURL(send, state, event.url))
+  tree.addEventListener('did-navigate-in-page', (event) => updateURL(send, state, event.url))
 
   tree.addEventListener('new-window', (event) => send('tabs:newTab', { url: event.url }))
 
@@ -44,15 +44,15 @@ const webview = (state, prev, send) => {
     update(send, state, {
       isDOMReady: true
     })
-  });
+  })
 
-  return tree;
+  return tree
 }
 
 module.exports = webview
 
 function onLoadStateChange (eventName, tab, tree, send) {
-  const start = eventName === 'start';
+  const start = eventName === 'start'
 
   return function () {
     console.log(start ? 'start loading' : 'stop loading')
@@ -77,11 +77,11 @@ function onLoadStateChange (eventName, tab, tree, send) {
 
 function onLoadFails (tab, tree, send) {
   return function (event) {
-    if (event.errorCode == -3 || event.errorCode == 0) return;
+    if (event.errorCode == -3 || event.errorCode == 0) return
 
     if (!event.isMainFrame) {
       console.error('Ignoring an error.', event.errorCode, event.errorDescription, event.validatedURL)
-      return;
+      return
     }
 
     send('tabs:update', {
@@ -154,7 +154,7 @@ function copyMetaInfo(tab, webview, send) {
     getMetaProperty(webview, 'og:description', (error, desc) => {
       getMetaProperty(webview, 'keywords', (error, keywords) => {
 
-        if (!image && !desc) return;
+        if (!image && !desc) return
 
         send('tabs:updateURLMeta', {
           tab,
@@ -171,7 +171,7 @@ function copyMetaInfo(tab, webview, send) {
 
 function getMetaProperty (webview, name, callback) {
   webview.executeJavaScript(`document.querySelector("meta[property='${name}']") && document.querySelector("meta[property='${name}']").getAttribute('content')`, false, (result) => {
-    if (!result) return callback();
+    if (!result) return callback()
 
     callback(undefined, result)
   })

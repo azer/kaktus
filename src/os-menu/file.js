@@ -1,4 +1,4 @@
-module.exports = file;
+module.exports = file
 
 function file (wm) {
   return {

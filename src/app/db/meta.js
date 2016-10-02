@@ -1,11 +1,11 @@
-const mix = require("mix-objects");
-const lessCommonWords = require("less-common-words");
-const anglicize = require("anglicize");
-const uniques = require("uniques");
-const loop = require("parallel-loop");
+const mix = require("mix-objects")
+const lessCommonWords = require("less-common-words")
+const anglicize = require("anglicize")
+const uniques = require("uniques")
+const loop = require("parallel-loop")
 
 const db = require("./db")
-const urls = require("./urls");
+const urls = require("./urls")
 const store = db.store('meta', {
   key: { keyPath: "metaURL" },
   indexes: [
@@ -21,7 +21,7 @@ module.exports = {
   save,
   search,
   get
-};
+}
 
 function save (props, callback) {
   props.url = urls.clean(props.url)
@@ -75,9 +75,9 @@ function extractTagsFromText (text) {
 }
 
 function extractTagsFromURL (url) {
-  url = url.replace(/\.(com|net|org)(\/|$|\?|\#)/, '$2');
-  url = url.replace(/^\w+:\/\//, '');
-  return lessCommonWords(url);
+  url = url.replace(/\.(com|net|org)(\/|$|\?|\#)/, '$2')
+  url = url.replace(/^\w+:\/\//, '')
+  return lessCommonWords(url)
 }
 
 function emptyMeta () {

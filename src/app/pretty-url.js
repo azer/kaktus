@@ -5,5 +5,5 @@ function prettyURL (url) {
             .replace(/^www\./, '')
             .replace(/\?.*$/, '')
             .replace(/\#.*$/, '')
-            .replace(/\/$/, '');
+            .replace(/\/$/, '')
 }
