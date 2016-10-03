@@ -3,6 +3,7 @@ const history = require("./history")
 const likes = require("./likes")
 const meta = require("./meta")
 const embed = require("./embed")
+const anglicize = require("anglicize")
 
 module.exports = search
 
@@ -11,7 +12,7 @@ function search (query, callback) {
     return defaultResults(callback)
   }
 
-  embed(meta.search, [query], [history, likes, tabs], callback)
+  embed(meta.search, [anglicize(query)], [history, likes, tabs], callback)
 }
 
 function defaultResults (callback) {
