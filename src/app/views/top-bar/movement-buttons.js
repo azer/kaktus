@@ -19,9 +19,9 @@ const movementButtons = (state, prev, send) => {
 
   return html`
   <div class="buttons movement-buttons">
-    ${forwardButton(selectedTab.canGoForward, e => forward(state, prev, send)) }
-    ${backButton(selectedTab.canGoBack, e => back(state, prev, send)) }
-    ${selectedTab.isPlayingMedia ? audioButton(state, prev, send) : null}
+    ${forwardButton(selectedTab.canGoForward, e => forward(selectedTab, prev, send)) }
+    ${backButton(selectedTab.canGoBack, e => back(selectedTab, prev, send)) }
+    ${selectedTab.isPlayingMedia ? audioButton(selectedTab, prev, send) : null}
   </div>
   `
 }
@@ -30,7 +30,6 @@ module.exports = movementButtons
 
 function movementButton (type) {
   let icon = type === 'forward' ? '❯' : '❮'
-
   return (isActive, onclick) => html`
   <div class="button ${type} ${isActive ? 'active' : ''}" onclick=${onclick}>
     ${icon}

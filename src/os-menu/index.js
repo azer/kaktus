@@ -24,7 +24,7 @@ function create (wm) {
 }
 
 function dev (wm, template) {
-  if (!wm.developerMode) return template
+  //if (!wm.developerMode) return template
 
   template[3].submenu.push({
     type: 'separator'
@@ -35,8 +35,6 @@ function dev (wm, template) {
       if (focusedWindow) focusedWindow.toggleDevTools()
     }
   })
-
-
 
   return template
 }
