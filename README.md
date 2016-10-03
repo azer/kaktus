@@ -12,7 +12,7 @@ A new minimalistic web browser. It's currently usable, [and there is a lot to do
 
 ## Download
 
-* [OSX](https://cldup.com/a34ZFYO_rI.zip)
+* [OSX](https://www.dropbox.com/s/wwkj8c93s9ieijl/Kakt%C3%BCs-darwin-x64.zip?dl=0)
 * [Linux](https://github.com/kaktus/kaktus/releases/download/1.0.0/Kaktus-linux-x64.zip)
 * [Windows](https://github.com/kaktus/kaktus/releases/download/1.0.0/Kaktus-win32-x64.zip)
 
