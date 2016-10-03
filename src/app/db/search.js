@@ -26,7 +26,7 @@ function defaultResults (callback) {
       return callback(undefined, result.sort(sort).filter(isUnique))
     }
 
-    recent((error, rows) => {
+    recentHistory((error, rows) => {
       if (error) return callback(undefined, result)
 
       for (let row of rows) {
@@ -43,10 +43,17 @@ function defaultResults (callback) {
 
 }
 
-function recent (callback) {
+function recentHistory (callback) {
   embed(history.all, [{ limit: 50 }], [likes, meta, tabs], function (error, rows) {
     if (error) return callback(error)
     callback(undefined, rows.map(mapRecord))
+  })
+}
+
+function recentLikes () {
+  embed(likes.all, [{ limit: 50 }], [likes, meta, tabs], function (error, rows) {
+    if (error) return callback(error)
+    callback(undefined, rows.map(mapLike))
   })
 }
 

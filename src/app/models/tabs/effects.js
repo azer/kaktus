@@ -190,6 +190,8 @@ function go (payload, state, send, done) {
 }
 
 function _go (payload, state, send, done) {
+  console.log('Go to %s', payload.url)
+
   send('tabs:openURL', payload, done)
 
   if (!/^\w+:\/\//.test(payload.url)) return
@@ -215,13 +217,21 @@ function _go (payload, state, send, done) {
 }
 
 function updateURL (payload, state, send, done) {
+  console.log('Update URL to %s', payload.url)
+
+  send('tabs:update', {
+    tab: payload.tab,
+    props: {
+      url: payload.url
+    }
+  }, done)
+
   db.likes.get(payload.url, (error, isLiked) => {
     if (error) console.error('can not read like value from db', error)
 
     send('tabs:update', {
       tab: payload.tab,
       props: {
-        url: payload.url,
         isLiked
       }
     }, done)

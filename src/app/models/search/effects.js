@@ -15,6 +15,7 @@ function open (payload, state, send, done) {
   send('search:setPreview', payload && payload.preview || null, done)
   send('search:setResults', payload && payload.results || [], done)
   send('search:setAsOpen', done)
+  send('findInPage:disable', done)
 
   if (payload && payload.select) {
     input.select('url')
@@ -38,25 +39,15 @@ function search (payload, state, send, done) {
   db.search(query, (error, results) => {
     if (error) return console.error('Failed to update search results: ', query)
 
-    send('search:setPreview', results[0], done)
+    //send('search:setPreview', results[0], done)
     send('search:setResults', results, done)
   })
 }
 
 function up (payload, state, send, done) {
   if (state.results.length === 0) return
-  const rows = state.results
-
-  let index = -1
-  let i = -1
-  const len = rows.length
-  while (++i < len) {
-    if (rows[i].url !== state.preview.url) continue
-    index = i
-    break
-  }
-
-  let prev = state.results[ index < 1 ? state.results.length - 1 : index - 1  ]
+  const index = findPreviewIndex(state)
+  const prev = state.results[ index < 1 ? state.results.length - 1 : index - 1  ]
   send('search:setPreview', prev, done)
   send('search:setQuery', prev.url, done)
   send('search:selectInput', send)
@@ -64,6 +55,16 @@ function up (payload, state, send, done) {
 
 function down (payload, state, send, done) {
   if (state.results.length === 0) return
+  const index = findPreviewIndex(state)
+  const next = state.results[ (index + 1) % state.results.length ]
+  send('search:setPreview', next, done)
+  send('search:setQuery', next.url, done)
+  send('search:selectInput', send)
+}
+
+function findPreviewIndex (state) {
+  if (!state.preview) return -1
+
   const rows = state.results
 
   let index = -1
@@ -75,8 +76,5 @@ function down (payload, state, send, done) {
     break
   }
 
-  const next = state.results[ (i + 1) % state.results.length ]
-  send('search:setPreview', next, done)
-  send('search:setQuery', next.url, done)
-  send('search:selectInput', send)
+  return index
 }

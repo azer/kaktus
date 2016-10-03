@@ -33,7 +33,7 @@ const webview = (state, prev, send) => {
     image: null
   }))
 
-  tree.addEventListener('did-navigate', (event) => updateURL(send, state, event.url))
+  tree.addEventListener('did-navigate', (event) =>  updateURL(send, state, event.url))
   tree.addEventListener('did-navigate-in-page', (event) => updateURL(send, state, event.url))
 
   tree.addEventListener('new-window', (event) => send('tabs:newTab', { url: event.url }))
@@ -122,7 +122,7 @@ function update(send, tab, props) {
 }
 
 function updateURL (send, tab, url) {
-  console.log('update url:', url)
+  if (tab.url === url) return console.error('The updated URL is same with existing one', url)
 
   send('tabs:updateURL', {
     tab,
