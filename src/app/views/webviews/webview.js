@@ -2,6 +2,7 @@ const html = require('choo/html')
 const titleFromURL = require("title-from-url")
 
 const webview = (state, prev, send) => {
+
   let tree = html`
     <webview id="${state.id}"
              class="webview active"
@@ -30,7 +31,9 @@ const webview = (state, prev, send) => {
     url: event.url,
     title: titleFromURL(event.url),
     icon: '',
-    image: null
+    image: null,
+    canGoBack: tree.canGoBack(),
+    canGoForward: tree.canGoForward()
   }))
 
   tree.addEventListener('did-navigate', (event) =>  updateURL(send, state, event.url))
