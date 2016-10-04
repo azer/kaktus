@@ -6,6 +6,7 @@ A new minimalistic web browser. It's currently usable, [and there is a lot to do
 * [How It Works](#how-it-works)
 * [Keyboard Shortcuts](#keyboard-shortcuts)
 * [Roadmap](#roadmap)
+* [For Designers](#for-designers)
 * [Development](#development)
 
 ![](https://cldup.com/6jOWAjYdpo.png)
@@ -59,6 +60,14 @@ Improvements:
 
 Windows & Linux:
 * They don't look as nice as OSX builds do. Visual improvements are needed for both.
+
+## For Designers 
+
+Kaktüs needs a lot of help on design. Here is what's missing;
+
+* **Logo:** Current logo is something I had to pick up from Dribble (with the permission of the designer) and it's temporary.
+* **Icons:** Kaktüs needs an icon set to interact with user better/
+* **Ideas:** Kaktüs needs your ideas on how to improve tabbing and search.
 
 ## Development
 
