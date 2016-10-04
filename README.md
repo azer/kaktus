@@ -69,6 +69,9 @@ Kaktüs needs a lot of help on design. Here is what's missing;
 * **Logo:** Current logo is something I had to pick up from Dribble (with the permission of the designer) and it's temporary.
 * **Icons:** Kaktüs needs an icon set to interact with user better/
 * **Ideas:** Kaktüs needs your ideas on how to improve tabbing and search.
+* **Missing Designs:**
+  * **The New Tab:** The new tab page is not designed yet, feel free to 
+  * **Preview Column:** When you select an item in the menu, Kaktüs shows a preview with an image/icon of the page. This column occupies too much space unnecessarily, and we need ideas on how to make it better.
 
 ## Development
 
