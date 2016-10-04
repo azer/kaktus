@@ -18,13 +18,15 @@ function file (wm) {
           wm.send('tabs:newTab')
         }
       },
+      /*
+      Disabled until we store tabs with session ids
       {
         label: 'New Window',
         accelerator: 'CmdOrCtrl+n',
         click: function (item, window) {
           wm.createWindow()
         }
-      },
+      },*/
       {
         label: 'New Private Window',
         accelerator: 'shift+CmdOrCtrl+n',
