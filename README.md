@@ -14,8 +14,15 @@ A new minimalistic web browser. It's currently usable, [and there is a lot to do
 ## Download
 
 * [OSX](https://www.dropbox.com/s/wwkj8c93s9ieijl/Kakt%C3%BCs-darwin-x64.zip?dl=0)
-* [Linux](https://github.com/kaktus/kaktus/releases/download/1.0.0/Kaktus-linux-x64.zip)
-* [Windows](https://github.com/kaktus/kaktus/releases/download/1.0.0/Kaktus-win32-x64.zip)
+
+#### Keyboard Shortcuts:
+* Command+T: New Tab
+* Control+Space: Open Menu
+* Command+O: Focus Mode
+* Shift+Command+F: Full Screen
+* Shift+Command+N: Open New Window with Privacy Mode
+* Command+F: Find in the page
+* Command+W: Close Tab
 
 ## How It Works
 ![](https://cldup.com/wDadS2XGrb.gif)
@@ -27,13 +34,7 @@ Tabbing menu shows both tabs and history items. They look same at first look. Th
   - X closes the tab, + opens that URL in new tab.
 * You can filter the results by a query that you can type, like; "instagram" or "github".
 
-#### Keyboard Shortcuts:
-* Command+T: New Tab
-* Control+Space: Open Menu
-* Command+O: Focus Mode
-* Shift+Command+F: Full Screen
-* Shift+Command+N: Open New Window with Privacy Mode
-* Command+W: Close Tab
+
 
 ## Roadmap
 
