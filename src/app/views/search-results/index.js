@@ -1,5 +1,5 @@
 const html = require('choo/html')
-const preview = require("./preview")
+const preview = require("../preview")
 const closeButton = require("./close-button")
 const openInNewTabButton = require("./open-in-new-tab-button")
 const isButton = require("../is-button")
@@ -14,7 +14,7 @@ const results = (state, prev, send) => {
     <div class="rows">
       ${rows.map(row => rowView(row, state, prev, send))}
     </div>
-    ${state.search.preview ? preview(state.search.preview) : null}
+    ${preview(state, prev, send)}
     <div class="clear"></div>
   </div>
   `
@@ -41,7 +41,8 @@ const rowView = (row, state, prev, send) => {
     <div class="row ${row.tab ? 'tab' : ''} ${isSelected ? 'selected' : ''}"
          onmouseover=${setPreview(row, prev, send)}
          onclick=${select(row, state.tabs[state.tabs.selectedId], prev, send)}>
-      <div class="row-text" style="background-image:url(${rowIcon(row)})">
+      <div class="row-text" style="background-image:url(${rowIconURL(row)})">
+        ${rowIcon(row, state, prev, send)}
         <div class="row-text-wrapper">${rowTitle(row)}</div>
       </div>
       ${row.tab && isSelected ? closeButton(row.tab, prev, send) : null}
@@ -50,13 +51,30 @@ const rowView = (row, state, prev, send) => {
   `
 }
 
+const likedRowIcon = (state, prev, send) => html`
+<div class="search-row-icon">
+  <i class="fa fa-heart" aria-hidden="true"></i>
+</div>`
+
+const historicalRowIcon = (state, prev, send) => html`
+<div class="search-row-icon">
+  <i class="fa fa-file-o" aria-hidden="true"></i>
+</div>`
+
 module.exports = results
 
 function rowTitle (row) {
   return row.title || ''
 }
 
-function rowIcon (row) {
+function rowIcon (row, state, prev, send) {
+  if (row.tab) return null
+  return (state.likes[row.url] ?  likedRowIcon : historicalRowIcon)(row, prev, send)
+}
+
+function rowIconURL (row) {
+  if (!row.tab) return ''
+
   return row.icon
 }
 

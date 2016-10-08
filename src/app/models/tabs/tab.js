@@ -1,10 +1,13 @@
 const titleFromURL = require("title-from-url")
 const parseURL = require("url").parse
+const urls = require("../../urls")
 
 class Tab {
-  constructor (id, url, options) {
+  constructor (id, protocol, url) {
     this.id = id
-    this.url = url.trim()
+    this.protocol = protocol || ''
+    this.url = url && url.trim() || ''
+    this.webviewURL = this.protocol ? `${this.protocol}://${this.url}` : this.url
     this.title = titleFromURL(this.url)
     this.description = ''
     this.icon = null

@@ -1,5 +1,5 @@
 const db = require("./db")
-const urls = require("./urls")
+const urls = require("../urls")
 const store = db.store('history', {
   key: { keyPath: "url" },
   indexes: [

@@ -2,6 +2,7 @@ const db = require("../../db")
 const searchRows = require("../../models/tabs").searchRows
 const listOfTabs = require("../../list-of-tabs")
 const Tab = require("./tab")
+const urls = require("../../urls")
 
 const MAX_ZOOM_LEVEL = 9
 const MIN_ZOOM_LEVEL = -8
@@ -17,8 +18,7 @@ module.exports = {
   closeSelectedTab,
   updateURL,
   updateURLMeta,
-  like,
-  unlike,
+  updateByURL,
   back: withWebView(back),
   forward: withWebView(forward),
   reload: withWebView(reload),
@@ -41,15 +41,21 @@ function recoverTabs (payload, state, send, done) {
     if (error) return console.error('can not recover tabs', error)
     if (all.length === 0) return newTab(null, state, send, done)
 
+    send('likes:recover', all, done)
+    send('domains:recover', all, done)
+
     let newState = {}
 
     all.forEach(el => {
-      let url = ''
+      let protocol = ""
+      let url = ""
+
       if (el.record) {
-        url = `${el.record.protocol || 'http'}://${el.record.url}`
+        protocol = el.record.protocol
+        url = el.record.url
       }
 
-      const t = new Tab(el.id, url)
+      const t = new Tab(el.id, protocol, url)
 
       if (el.meta) {
         t.image = el.meta.image
@@ -60,7 +66,6 @@ function recoverTabs (payload, state, send, done) {
 
       t.createdAt = el.createdAt
       t.isSelected = !!el.isSelected
-      t.isLiked = !!el.isLiked
 
       if (t.isSelected) {
         newState.selectedId = t.id
@@ -70,6 +75,7 @@ function recoverTabs (payload, state, send, done) {
     })
 
     send('tabs:setState', newState, done)
+
     if (newState[newState.selectedId].isNew) {
       send('search:open', { search: '' }, done)
     }
@@ -114,7 +120,7 @@ function newTab (payload, state, send, done) {
     db.tabs.select(id, error => {
       if (error) console.error('Can not select the new tab created', error)
 
-      send('tabs:create', { id: id, url: payload && payload.url || '', select: true }, done)
+      send('tabs:create', { id, url: payload && payload.url || '', select: true }, done)
 
       if (!payload || !payload.url) {
         send('search:open', { search: '' }, done)
@@ -149,32 +155,30 @@ function select (id, state, send, done) {
   })
 }
 
-function like (tab, state, send, done) {
-  db.likes.like(tab.url, error => {
-    if (error) return console.error('can not like %s', id)
+function updateByURL(payload, state, send, done) {
+  const url = payload.url
+  let tab = null
 
-    send('tabs:update', {
-      tab: tab,
-      props: {
-        isLiked: true
-      }
-    }, done)
-  })
-}
+  for (let t of state) {
+    if (t.url === url) {
+      tab = t
+      break
+    }
+  }
 
-function unlike (tab, state, send, done) {
-  db.likes.unlike(tab.url, error => {
-    if (error) return console.error('can not unlike %s', id)
-    send('tabs:update', {
-      tab: tab,
-      props: {
-        isLiked: false
-      }
-    }, done)
+  if (!tab) return console.error('URL is not opened as a tab')
+
+  send('tabs:update', {
+    tab,
+    props: payload.props
   })
 }
 
 function go (payload, state, send, done) {
+  if (!payload.tab) {
+    payload.tab = state[state.selectedId]
+  }
+
   db.tabs.get(payload.url, (error, tab) => {
     if (error) return console.error('can not get tabs')
     if (!tab) return _go(payload, state, send, done)
@@ -222,20 +226,13 @@ function updateURL (payload, state, send, done) {
   send('tabs:update', {
     tab: payload.tab,
     props: {
-      url: payload.url
+      protocol: urls.protocol(payload.url),
+      url: urls.clean(payload.url),
+      webviewURL: payload.url,
     }
   }, done)
 
-  db.likes.get(payload.url, (error, isLiked) => {
-    if (error) console.error('can not read like value from db', error)
-
-    send('tabs:update', {
-      tab: payload.tab,
-      props: {
-        isLiked
-      }
-    }, done)
-  })
+  send('likes:get', urls.clean(payload.url), done)
 
   if (!/^\w+:\/\//.test(payload.url)) return
 

@@ -23,13 +23,10 @@ function createTitleBar (children, onClick) {
 }
 
 function button (state, prev, send) {
-  const selectedTab = state.tabs[state.tabs.selectedId]
-
-  if (selectedTab.isNew) return null
-
+  if (state.tabs[state.tabs.selectedId].isNew) return null
   if (state.search.isOpen) {
     return createTabButton(state, prev, send)
   }
 
-  return likeButton(selectedTab, prev, send)
+  return likeButton(state, prev, send)
 }

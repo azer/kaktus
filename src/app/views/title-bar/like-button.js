@@ -1,14 +1,19 @@
 const html = require('choo/html')
 
-const likeButton = (state, prev, send) => html`
-<div class="like-button ${state.isLiked ? "liked" : "" }" onclick=${toggleLike(state, prev, send)}>
-  <i class="fa fa-heart" aria-hidden="true"></i>
-</div>`
+const likeButton = (state, prev, send) => {
+  const selectedTab = state.tabs[state.tabs.selectedId]
+  const isLiked = !!state.likes[selectedTab.url]
+
+  return html`
+  <div class="like-button ${isLiked ? "liked" : "" }" onclick=${toggleLike({ url: selectedTab.url, isLiked }, prev, send)}>
+    <i class="fa fa-heart" aria-hidden="true"></i>
+  </div>`
+}
 
 module.exports = likeButton
 
-function toggleLike (tab, prev, send) {
+function toggleLike (payload, prev, send) {
   return function () {
-    send(`tabs:${tab.isLiked ? "un" : ""}like`, tab)
+    send(`likes:${payload.isLiked ? 'un' : ''}like`, { url: payload.url })
   }
 }

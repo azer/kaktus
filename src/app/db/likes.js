@@ -1,11 +1,15 @@
 const db = require("./db")
-const urls = require("./urls")
+const urls = require("../urls")
 const store = db.store('likes', {
-  key: { keyPath: "url" }
+  key: { keyPath: "url" },
+  indexes: [
+    { name: 'likedAt', options: { unique: false } }
+  ],
+  upgrade
 })
 
 module.exports = {
-  foreignName: 'isLiked',
+  foreignName: 'like',
   foreignKey: 'url',
   store,
   like,
@@ -26,10 +30,7 @@ function unlike (url, callback) {
 }
 
 function get (url, callback) {
-  store.get(urls.clean(url), (error, result) => {
-    if (error) return callback(error)
-    callback(undefined, !!result)
-  })
+  store.get(urls.clean(url), callback)
 }
 
 function all (options, callback) {
@@ -50,4 +51,8 @@ function all (options, callback) {
 
     row.continue()
   })
+}
+
+function upgrade () {
+  store.createIndex('likedAt', { unique: false })
 }

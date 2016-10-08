@@ -2,6 +2,7 @@ const change = require("change-object")
 const titleFromURL = require("title-from-url")
 const Tab = require("./tab")
 const parseURL = require("url").parse
+const urls = require("../../urls")
 
 module.exports = {
   openURL,
@@ -15,7 +16,7 @@ module.exports = {
 }
 
 function openURL (payload) {
-  return changeTab(payload.tab, newURLProps(fixURL(payload.url)))
+  return changeTab(payload.tab, newURLProps(urls.normalize(payload.url)))
 }
 
 function setSelectedId (selectedId) {
@@ -44,6 +45,13 @@ function changeTab (tab, updates) {
   for (let key in updates) {
     if (tab[key] === updates[key]) continue
     result[tab.id][key] = updates[key]
+
+    if (key === 'url' && /^\w+:\/\//.test(updates[key])) {
+      result[tab.id].webviewURL = updates.url
+      result[tab.id].protocol = urls.protocol(updates.url)
+      result[tab.id].url = urls.clean(updates.url)
+    }
+
     changed = true
   }
 
@@ -60,7 +68,7 @@ function setTabAsClosed (id) {
 
 function create (options) {
   var result = {}
-  var tab = new Tab(options.id, options.url)
+  var tab = new Tab(options.id, urls.protocol(options.url), urls.clean(options.url))
 
   if (options.select) {
     result['selectedId'] = tab.id
@@ -71,34 +79,19 @@ function create (options) {
   return result
 }
 
-function fixURL (input) {
-  if (isSearchQuery(input)) {
-    input = `https://google.com/search?q=${input}`
-  }
-
-  if (!/^http/.test(input)) {
-    return `http://${input}`
-  }
-
-  return input
-}
-
 function newURLProps (url) {
   return {
-    url,
+    protocol: urls.protocol(url),
+    url: urls.clean(url),
+    webviewURL: url,
     title: titleFromURL(url),
     description: '',
     icon: '',
     image: undefined,
     error: null,
     isDOMReady: false,
-    isLiked: false,
     isNew: false
   }
-}
-
-function isSearchQuery (input) {
-  return input.indexOf(' ') > -1 || input.indexOf('.') === -1
 }
 
 function setState (state) {

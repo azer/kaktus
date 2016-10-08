@@ -1,3 +1,3 @@
 module.exports = require("indexeddb")('kaktus', {
-  version: 1
+  version: 4
 })

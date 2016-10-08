@@ -6,7 +6,7 @@ const webview = (state, prev, send) => {
   let tree = html`
     <webview id="${state.id}"
              class="webview active"
-             src=${state.url}
+             src="${state.webviewURL}"
              partition=${state.partitionName}></webview>
   `
 
