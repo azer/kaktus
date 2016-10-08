@@ -4,8 +4,8 @@ const urls = require("../../urls")
 
 const likeButton = button('Like', 'heart', like)
 const unlikeButton = button('Liked', 'heart', unlike)
-const enablePrivacyModeButton = button('Privacy Mode', 'user-secret', enablePrivacyMode)
-const disablePrivacyModeButton = button('Disable Privacy Mode', 'user-secret', disablePrivacyMode)
+const enablePrivateModeButton = button('Private Mode', 'user-secret', enablePrivateMode)
+const disablePrivateModeButton = button('Disable Private Mode', 'user-secret', disablePrivateMode)
 const removeFromHistoryButton = button('Remove From History', 'trash-o', removeFromHistory)
 const muteButton = button('Mute', 'volume-off', mute)
 const unmuteButton = button('Unmute', 'volume-up', unmute)
@@ -27,7 +27,7 @@ function buttons (state) {
 
   return [
     state.likes[state.search.preview.url] ? unlikeButton : likeButton,
-    domain && domain.privacyMode ? disablePrivacyModeButton : enablePrivacyModeButton,
+    domain && domain.privateMode ? disablePrivateModeButton : enablePrivateModeButton,
     openButton,
     openInNewTabButton,
     removeFromHistoryButton
@@ -39,7 +39,7 @@ function tabButtons (state) {
 
   return [
     state.likes[state.search.preview.url] ? unlikeButton : likeButton,
-    domain && domain.privacyMode ? disablePrivacyModeButton : enablePrivacyModeButton,
+    domain && domain.privateMode ? disablePrivateModeButton : enablePrivateModeButton,
     muteButton
   ]
 }
@@ -52,12 +52,12 @@ function unlike (row, prev, send) {
     send('likes:unlike', row.url)
 }
 
-function enablePrivacyMode (row, prev, send) {
-  send('domains:enablePrivacyMode', row.url, send)
+function enablePrivateMode (row, prev, send) {
+  send('domains:enablePrivateMode', row.url, send)
 }
 
-function disablePrivacyMode (row, prev, send) {
-  send('domains:disablePrivacyMode', row.url, send)
+function disablePrivateMode (row, prev, send) {
+  send('domains:disablePrivateMode', row.url, send)
 }
 
 function removeFromHistory () {

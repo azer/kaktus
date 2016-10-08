@@ -20,7 +20,7 @@ const privateOptions = {
   titleBarStyle: 'hidden-inset',
   icon: `file://${__dirname}/icon.png`,
   webPreferences: {
-    partition: 'private-mode'
+    partition: 'kaktus-private'
   }
 }
 

@@ -37,7 +37,7 @@ module.exports = {
 }
 
 function recoverTabs (payload, state, send, done) {
-  db.embed(db.tabs.all, [db.meta, db.history, db.likes], (error, all) => {
+  db.embed(db.tabs.all, [db.meta, db.history, db.likes, db.domains], (error, all) => {
     if (error) return console.error('can not recover tabs', error)
     if (all.length === 0) return newTab(null, state, send, done)
 

@@ -1,14 +1,22 @@
 const html = require('choo/html')
 const titleFromURL = require("title-from-url")
 
+const normal = (state) => html`
+<webview id="${state.id}"
+         class="webview active"
+         src="${state.webviewURL}"
+         partition=${state.partitionName}></webview>
+`
+
+const private = (state) => html`
+<div class="private-mode-wrapper">
+  ${normal(state)}
+</div>
+`
+
 const webview = (state, prev, send) => {
 
-  let tree = html`
-    <webview id="${state.id}"
-             class="webview active"
-             src="${state.webviewURL}"
-             partition=${state.partitionName}></webview>
-  `
+  let tree = state.partitionName === 'kaktus-private' ? private(state) : normal(state)
 
   tree.addEventListener('did-start-loading', onLoadStateChange('start', state, tree, send))
   tree.addEventListener('did-stop-loading', onLoadStateChange('stop', state, tree, send))

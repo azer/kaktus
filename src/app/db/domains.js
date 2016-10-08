@@ -7,7 +7,7 @@ const store = db.store('domains', {
 module.exports = {
   foreignName: 'domain',
   foreignKey: 'url',
-  setPrivacyMode,
+  setPrivateMode,
   get
 }
 
@@ -15,10 +15,10 @@ function get (url, callback) {
   store.get(urls.domain(url), callback)
 }
 
-function setPrivacyMode (url, value, callback) {
+function setPrivateMode (url, value, callback) {
   save({
     domain: urls.domain(url),
-    privacyMode: value
+    privateMode: value
   }, callback)
 }
 

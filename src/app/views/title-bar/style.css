@@ -68,13 +68,17 @@
   display: none;
 }
 
-.title-bar .like-button, .title-bar .create-tab-button, .title-bar .quit-find-in-page-button {
+.title-bar .like-button, .title-bar .create-tab-button, .title-bar .quit-find-in-page-button, .title-bar .private-mode-icon {
   position: absolute;;
   right: 7px;
   top: 7px;
   cursor: pointer;
   color: rgb(180, 180, 180);
   cursor: pointer;
+}
+
+.title-bar .private-mode-icon {
+  color: rgb(137, 95, 152);
 }
 
 .title-bar .create-tab-button:hover {

@@ -14,6 +14,6 @@ module.exports = likeButton
 
 function toggleLike (payload, prev, send) {
   return function () {
-    send(`likes:${payload.isLiked ? 'un' : ''}like`, { url: payload.url })
+    send(`likes:${payload.isLiked ? 'un' : ''}like`, payload.url)
   }
 }
