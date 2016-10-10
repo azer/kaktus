@@ -1,41 +1,34 @@
 const html = require('choo/html')
 const titleFromURL = require("title-from-url")
+const partition = require("../../partition")
 
-const normal = (state) => html`
-<webview id="${state.id}"
+const el = (tab, state, prev, send) => html`
+<webview id="${partition.webviewId(tab, state)}"
          class="webview active"
-         src="${state.webviewURL}"
-         partition=${state.partitionName}></webview>
+         src="${tab.webviewURL}"
+         partition=${partition.tab(tab, state)}></webview>
 `
 
-const private = (state) => html`
-<div class="private-mode-wrapper">
-  ${normal(state)}
-</div>
-`
+const webview = (tab, state, prev, send) => {
+  let tree = el(tab, state, prev, send)
+  tree.addEventListener('did-start-loading', onLoadStateChange('start', tab, tree, send))
+  tree.addEventListener('did-stop-loading', onLoadStateChange('stop', tab, tree, send))
+  tree.addEventListener('did-fail-load', onLoadFails(tab, tree, send))
 
-const webview = (state, prev, send) => {
+  tree.addEventListener('crashed', onCrash(tab, tree, send))
+  tree.addEventListener('gpu-crashed', onCrash(tab, tree, send))
+  tree.addEventListener('media-started-playing', onMediaStateChange(true, tab, tree, send))
+  tree.addEventListener('media-paused', onMediaStateChange(false, tab, tree, send))
 
-  let tree = state.partitionName === 'kaktus-private' ? private(state) : normal(state)
-
-  tree.addEventListener('did-start-loading', onLoadStateChange('start', state, tree, send))
-  tree.addEventListener('did-stop-loading', onLoadStateChange('stop', state, tree, send))
-  tree.addEventListener('did-fail-load', onLoadFails(state, tree, send))
-
-  tree.addEventListener('crashed', onCrash(state, tree, send))
-  tree.addEventListener('gpu-crashed', onCrash(state, tree, send))
-  tree.addEventListener('media-started-playing', onMediaStateChange(true, state, tree, send))
-  tree.addEventListener('media-paused', onMediaStateChange(false, state, tree, send))
-
-  tree.addEventListener('page-title-updated', (event) => updateURLMeta(send, state, {
+  tree.addEventListener('page-title-updated', (event) => updateURLMeta(send, tab, {
     title: event.title
   }))
 
-  tree.addEventListener('page-favicon-updated', (event) => updateURLMeta(send, state, {
+  tree.addEventListener('page-favicon-updated', (event) => updateURLMeta(send, tab, {
     icon: event.favicons[0]
   }))
 
-  tree.addEventListener('will-navigate', (event) => update(send, state, {
+  tree.addEventListener('will-navigate', (event) => update(send, tab, {
     url: event.url,
     title: titleFromURL(event.url),
     icon: '',
@@ -44,15 +37,14 @@ const webview = (state, prev, send) => {
     canGoForward: tree.canGoForward()
   }))
 
-  tree.addEventListener('did-navigate', (event) =>  updateURL(send, state, event.url))
-  tree.addEventListener('did-navigate-in-page', (event) => updateURL(send, state, event.url))
+  tree.addEventListener('did-navigate', (event) =>  updateURL(send, tab, event.url))
+  tree.addEventListener('did-navigate-in-page', (event) => updateURL(send, tab, event.url))
 
   tree.addEventListener('new-window', (event) => send('tabs:newTab', { url: event.url }))
 
   tree.addEventListener('dom-ready', (event) => {
-    copyMetaInfo(state, tree, send)
-
-    update(send, state, {
+    copyMetaInfo(tab, tree, send)
+    update(send, tab, {
       isDOMReady: true
     })
   })
@@ -71,18 +63,12 @@ function onLoadStateChange (eventName, tab, tree, send) {
     send(`tabs:${eventName}Loading`, {
       tab,
       props: {
-        //title: start ? tab.title : tree.getTitle(),
-        //url: start ? tab.url : tree.getURL(),
         canGoBack: tree.canGoBack(),
         canGoForward: tree.canGoForward(),
         isLoading: start,
         isDOMReady: !start
       }
     })
-
-    /*if (!start) {
-      send(`search:quit`)
-    }*/
   }
 }
 
@@ -99,6 +85,12 @@ function onLoadFails (tab, tree, send) {
       tab,
       props: {
         isLoading: false,
+        url: event.validatedURL,
+        title: titleFromURL(event.validatedURL),
+        icon: '',
+        image: null,
+        canGoBack: tree.canGoBack(),
+        canGoForward: tree.canGoForward(),
         error: {
           code: event.errorCode,
           description: event.errorDescription,
@@ -147,7 +139,6 @@ function updateURLMeta (send, tab, props) {
     props
   })
 }
-
 
 function onMediaStateChange (isPlaying, tab, tree, send) {
   return function (event) {

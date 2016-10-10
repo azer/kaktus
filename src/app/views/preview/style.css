@@ -50,8 +50,16 @@
   cursor: pointer;
 }
 
-.preview-button:hover {
-  color: #333;
+.preview-button .preview-button-icon {
+  color: #aaa;
+}
+
+.preview-button:hover, .preview-button:hover .preview-button-icon  {
+  color: #444;
+}
+
+.preview-button.active {
+  color: #000;
 }
 
 .preview-button-icon {
@@ -60,4 +68,12 @@
 
 .preview-button-text {
   margin-left: 20px;
+}
+
+.preview-button.liked.active .preview-button-icon {
+  color: rgba(225, 25, 0, 0.9);
+}
+
+.preview-button.private-mode.active .preview-button-icon {
+  color: rgb(90, 62, 121);
 }

@@ -11,6 +11,7 @@ function get (url, state, send, done) {
   db.domains.get(url, (error, row) => {
     if (error) return console.error('can not get domain ', error)
     if (!row) return
+
     send('domains:set', { domain: row.domain, props: row }, done)
   })
 }

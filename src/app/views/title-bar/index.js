@@ -25,11 +25,12 @@ function createTitleBar (children, onClick) {
 }
 
 function button (state, prev, send) {
-  if (isPrivateModeEnabled(state)) return privateModeIcon(state, prev, send)
   if (state.tabs[state.tabs.selectedId].isNew) return null
   if (state.search.isOpen) {
     return createTabButton(state, prev, send)
   }
+
+  if (isPrivateModeEnabled(state)) return privateModeIcon(state, prev, send)
 
   return likeButton(state, prev, send)
 }

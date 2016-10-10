@@ -1,8 +1,9 @@
 .search-results {
   position: relative;
   background: #fff;
-  width: calc(50% - 1px);
-  margin: 9px auto;
+  width: 50%;
+  margin-top: 9px;
+  left: calc(25% - 1px);
   border-radius: 3px;
   box-shadow: 1px 2px #e5e5e5;
   border-top: 1px solid #e5e5e5;
@@ -34,7 +35,7 @@
 
 .search-results .rows .row.selected,  .search-results .rows .row.selected .row-text:hover {
   cursor: pointer;
-  background-color: #ff84a6;
+  background-color: #f2f2f2;
 }
 
 .search-results .rows .row.tab.selected,  .search-results .rows .row.tab.selected .row-text:hover {
@@ -58,10 +59,15 @@
   background-size: 20px 20px;
 }
 
-.search-results .rows .row.selected .row-text {
-  color: #fff;
+.search-results .rows .row.tab.selected .row-text {
+  color: #444;
   text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
   width: 100%;
+}
+
+.search-results .rows .row.tab.selected .row-text {
+  color: #fff;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .search-results .rows .row .row-text-wrapper {

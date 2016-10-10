@@ -2,15 +2,17 @@ const html = require('choo/html')
 const button = require("./button")
 const urls = require("../../urls")
 
-const likeButton = button('Like', 'heart', like)
-const unlikeButton = button('Liked', 'heart', unlike)
-const enablePrivateModeButton = button('Private Mode', 'user-secret', enablePrivateMode)
-const disablePrivateModeButton = button('Disable Private Mode', 'user-secret', disablePrivateMode)
-const removeFromHistoryButton = button('Remove From History', 'trash-o', removeFromHistory)
-const muteButton = button('Mute', 'volume-off', mute)
-const unmuteButton = button('Unmute', 'volume-up', unmute)
-const openInNewTabButton = button('Open In New Tab', 'plus', openInNewTab)
-const openButton = button('Open', 'link', openInSameTab)
+const likeButton = button({ title: 'Like', 'icon': 'heart', onclick: like })
+const unlikeButton = button({ title: 'Liked', classes: ['active'], icon: 'heart', onclick: unlike })
+const enablePrivateModeButton = button({ title: 'Private Mode', icon: 'user-secret', onclick: enablePrivateMode })
+const disablePrivateModeButton = button({ title: 'Private Mode', classes: ['active'], icon: 'user-secret', onclick: disablePrivateMode })
+const removeFromHistoryButton = button({ title: 'Remove From History', icon: 'trash-o', onclick: removeFromHistory })
+const muteButton = button({ title: 'Mute', icon: 'volume-off', onclick: mute })
+const unmuteButton = button({ title: 'Unmute', icon: 'volume-up', onclick: unmute })
+const openInNewTabButton = button({ title: 'Open In New Tab', icon: 'plus', onclick: openInNewTab })
+const openButton = button({ title: 'Open', icon: 'link', onclick: openInSameTab })
+const closeTabButton = button({ title: 'Close', icon: 'close', onclick: closeTab })
+const copyURLButton = button({ title: 'Copy URL', icon: 'copy', onclick: copyURL })
 
 const view = (state, prev, send) => html`
   <div class="preview-buttons">
@@ -26,10 +28,11 @@ function buttons (state) {
   const domain = state.domains[urls.domain(state.search.preview.url)]
 
   return [
-    state.likes[state.search.preview.url] ? unlikeButton : likeButton,
-    domain && domain.privateMode ? disablePrivateModeButton : enablePrivateModeButton,
     openButton,
     openInNewTabButton,
+    state.likes[state.search.preview.url] ? unlikeButton : likeButton,
+    domain && domain.privateMode ? disablePrivateModeButton : enablePrivateModeButton,
+    copyURL,
     removeFromHistoryButton
   ]
 }
@@ -40,7 +43,9 @@ function tabButtons (state) {
   return [
     state.likes[state.search.preview.url] ? unlikeButton : likeButton,
     domain && domain.privateMode ? disablePrivateModeButton : enablePrivateModeButton,
-    muteButton
+    closeTabButton,
+    muteButton,
+    copyURL
   ]
 }
 
@@ -78,4 +83,12 @@ function openInNewTab (row, prev, send) {
 
 function openInSameTab (row, prev, send) {
   send('tabs:go', { url: row.url })
+}
+
+function closeTab (row, prev, send) {
+  send('tabs:close', row.tabId)
+}
+
+function copyURL () {
+
 }

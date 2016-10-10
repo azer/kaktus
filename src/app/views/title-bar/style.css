@@ -31,7 +31,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 87%;
+  width: 85%;
   margin: 0 auto;
   height: 19px;
 }
@@ -78,16 +78,23 @@
 }
 
 .title-bar .private-mode-icon {
-  color: rgb(137, 95, 152);
+  color: rgb(90, 62, 121);
+  /* rgb(90, 62, 101); rgb(128, 117, 132)  */
 }
 
 .title-bar .create-tab-button:hover {
   color: rgb(80, 80, 80);
 }
 
-.title-bar .liked.like-button, .title-bar .like-button:hover {
+.title-bar .like-button:hover {
+  color: rgb(80, 80, 80);
+}
+
+.title-bar .liked.like-button, .title-bar .like-button.liked:hover {
   color: rgb(225, 25, 0);
 }
+
+
 
 .title-bar input {
   font: 500 16px "San Francisco", Helvetica;

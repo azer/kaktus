@@ -196,27 +196,20 @@ function go (payload, state, send, done) {
 function _go (payload, state, send, done) {
   console.log('Go to %s', payload.url)
 
+  const url = urls.normalize(payload.url)
+
   send('tabs:openURL', payload, done)
 
-  if (!/^\w+:\/\//.test(payload.url)) return
-
-  db.tabs.updateURL(payload.tab.id, payload.url, error => {
+  db.tabs.updateURL(payload.tab.id, url, error => {
     if (error) console.error('Can not update tab url', payload.url, error)
   })
 
-  db.history.visit(payload.url, (error) => {
+  db.history.visit(url, (error) => {
     if (error) return console.error('Can not add %s to history', payload.url, error)
   })
 
-  db.likes.get(payload.url, (error, isLiked) => {
-    if (error) return console.error('can not read like value from db', error)
+  db.domains.get(url, (error, domain) => {
 
-    send('tabs:update', {
-      tab: payload.tab,
-      props: {
-        isLiked
-      }
-    }, done)
   })
 }
 
@@ -233,6 +226,7 @@ function updateURL (payload, state, send, done) {
   }, done)
 
   send('likes:get', urls.clean(payload.url), done)
+  send('domains:get', urls.clean(payload.url), done)
 
   if (!/^\w+:\/\//.test(payload.url)) return
 
@@ -362,7 +356,7 @@ function withWebView (method) {
       payload.tab = state[state.selectedId]
     }
 
-    var webview = document.querySelector(`#${payload.tab.id}`)
+    var webview = document.querySelector(`#${payload.tab.id}`) || document.querySelector(`#${payload.tab.id}-private`)
     if (!webview) return
 
     method(webview, payload, send, done)

@@ -31,6 +31,7 @@ function ready (state, prev, send) {
   initialized = true
 
   ipcRenderer.on('action', function (event, message) {
+    console.log(message.name, message.payload)
     send(message.name, message.payload)
   })
 }

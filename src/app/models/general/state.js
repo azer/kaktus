@@ -1,9 +1,11 @@
+const partition = require("../../partition")
+
 module.exports = get()
 
 function get () {
   return {
     focusMode: false,
     privateMode: false,
-    partitionName: 'persist:kaktus'
+    partitionName: partition.window()
   }
 }

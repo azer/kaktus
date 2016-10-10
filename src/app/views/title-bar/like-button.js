@@ -5,7 +5,7 @@ const likeButton = (state, prev, send) => {
   const isLiked = !!state.likes[selectedTab.url]
 
   return html`
-  <div class="like-button ${isLiked ? "liked" : "" }" onclick=${toggleLike({ url: selectedTab.url, isLiked }, prev, send)}>
+  <div title=${isLiked ? "Unlike" : "Like"} class="like-button ${isLiked ? "liked" : "" }" onclick=${toggleLike({ url: selectedTab.url, isLiked }, prev, send)}>
     <i class="fa fa-heart" aria-hidden="true"></i>
   </div>`
 }

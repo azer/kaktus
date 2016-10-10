@@ -40,7 +40,7 @@ function normalize (input) {
     return `https://google.com/search?q=${input}`
   }
 
-  if (!/^\w:\/\//.test(input)) {
+  if (!/^\w+:\/\//.test(input)) {
     return `http://${input}`
   }
 

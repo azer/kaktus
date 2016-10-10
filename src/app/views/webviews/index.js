@@ -9,7 +9,7 @@ const webviews = (state, prev, send) => html`
     if (!f) return html`<div class="content killed"></div>`
     f.isSelected = f.id === state.tabs.selectedId
     f.partitionName = isPrivateModeEnabled(state) ? 'kaktus-private' : state.general.partitionName
-    return content(f, prev, send)
+    return content(f, state, prev, send)
   })}
 </div>
 `

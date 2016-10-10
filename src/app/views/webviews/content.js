@@ -3,10 +3,10 @@ const error = require("./error")
 const newTab = require("./new-tab")
 const webview = require("./webview")
 
-const content = (state, prev, send) => html`
-<div class="content ${state.error ? 'has-error' : ''} ${state.isSelected ? "selected" : ""}" onmousedown=${onFocus(state, prev, send)}>
-  ${state.error ? error(state.error, state, prev, send) : null}
-  ${state.isNew ? newTab(state, prev, send) : webview(state, prev, send)}
+const content = (tab, state, prev, send) => html`
+<div class="content ${tab.error ? 'has-error' : ''} ${tab.isSelected ? "selected" : ""}" onmousedown=${onFocus(tab, prev, send)}>
+  ${tab.error ? error(tab.error, state, prev, send) : null}
+  ${tab.isNew ? newTab(tab, state, prev, send) : webview(tab, state, prev, send)}
 </div>
 `
 
