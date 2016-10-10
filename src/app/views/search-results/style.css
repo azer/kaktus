@@ -47,6 +47,15 @@
   background-color: #0dc7da;
 }
 
+.search-results .rows .row.selected:hover .row-text {
+  color: #fff;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.search-results .rows .row.selected .row-text:hover {
+  color: #444;
+}
+
 .search-results .rows .row.tab.selected:hover {
   background-color: rgba(255, 94, 0, 0.75);
 }
@@ -87,10 +96,18 @@
 .search-results .rows .row .row-button {
   position: absolute;
   font: 900 18px Arial, sans-serif;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgb(255, 255, 255);
   padding: 5px 5px;
   left: calc(60% - 30px);
   margin-top: -30px;
+}
+
+.search-results .rows .row .open-in-new-tab-button {
+  color: #bdbdbd;
+}
+
+.search-results .rows .open-in-new-tab-button:hover {
+  color: #fff;
 }
 
 .search-results .rows .row.selected.closing .row-button {
@@ -106,4 +123,16 @@
 .search-results .search-row-icon {
   position: absolute;
   margin-left: -20px;
+}
+
+.search-results .separator {
+  padding: 3px 10px;
+  color: #aaa;
+  background: #fafafa;
+  font: 500 14px "San Francisco", Helvetica;
+}
+
+.search-results .separator i {
+  margin-right: 5px;
+  color: #ccc;
 }

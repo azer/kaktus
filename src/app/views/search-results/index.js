@@ -4,8 +4,13 @@ const closeButton = require("./close-button")
 const openInNewTabButton = require("./open-in-new-tab-button")
 const isButton = require("../is-button")
 
+const tabSeparator = createSeparator({ title: 'Tabs', icon: 'bars' })
+const historySeparator = createSeparator({ title: 'History', icon: 'file-o'  })
+const likeSeparator = createSeparator({ title: 'Liked', icon: 'heart'  })
+
+
 const results = (state, prev, send) => {
-  const rows = filter(state.search.results)
+  const rows = addSeparators(filter(state.search.results))
 
   if (rows.length === 0) return null // noresults(state, prev, send)
 
@@ -33,7 +38,10 @@ const noresults = (state, prev, send) => {
 const rowView = (row, state, prev, send) => {
   const isSelected = state.search.preview === row
 
+  if (row.separator) return separatorView(row, state, prev, send)
+
   if (row.tab && state.tabs[row.tab.id] === null) {
+    console.error('Bad tab row', row)
     return null
   }
 
@@ -49,6 +57,10 @@ const rowView = (row, state, prev, send) => {
       ${!row.tab && isSelected ? openInNewTabButton(row, prev, send) : null}
     </div>
   `
+}
+
+const separatorView = (row, state, prev, send) => {
+  return (row.tab ? tabSeparator : row.like ? likeSeparator : historySeparator)(state, prev, send)
 }
 
 const likedRowIcon = (state, prev, send) => html`
@@ -108,4 +120,36 @@ function filter (list) {
   return list.filter(el => {
     return el.title && el.url
   })
+}
+
+function createSeparator (options) {
+  return function (state, prev, send) {
+    return html`<div class="separator ${options.class || ''}">
+      <i aria-hidden="true" class="fa fa-${options.icon}"></i> ${options.title}
+    </div>`
+  }
+}
+
+function addSeparators (rows) {
+  const result = []
+  let last = null
+
+  for (let row of rows) {
+    if (last === null && row.isTabRecord) {
+      result.push({ separator: true, tab: true })
+    }
+
+    if (last && last.isTabRecord && row.isLikeRecord) {
+      result.push({ separator: true, like: true })
+    }
+
+    if (last && !last.isHistoryRecord && row.isHistoryRecord) {
+      result.push({ separator: true, history: true })
+    }
+
+    result.push(row)
+    last = row
+  }
+
+  return result
 }
