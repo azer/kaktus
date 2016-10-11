@@ -35,7 +35,7 @@
 
 .search-results .rows .row.selected,  .search-results .rows .row.selected .row-text:hover {
   cursor: pointer;
-  background-color: #f2f2f2;
+  background-color: #e5e5e5;
 }
 
 .search-results .rows .row.tab.selected,  .search-results .rows .row.tab.selected .row-text:hover {
@@ -47,7 +47,7 @@
   background-color: #0dc7da;
 }
 
-.search-results .rows .row.selected:hover .row-text {
+.search-results .rows .row.selected:hover .row-text, .search-results .rows .row.selected:hover .search-row-icon, .search-results .rows .row.selected:hover .close-button {
   color: #fff;
   text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
 }
@@ -57,7 +57,7 @@
 }
 
 .search-results .rows .row.tab.selected:hover {
-  background-color: rgba(255, 94, 0, 0.75);
+  background-color: rgba(255, 71, 0, 0.75);
 }
 
 .search-results .rows .row .row-text {
@@ -108,10 +108,12 @@
 
 .search-results .rows .open-in-new-tab-button:hover {
   color: #fff;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .search-results .rows .row.selected.closing .row-button {
   color: #fff;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .search-results .no-results {
@@ -123,6 +125,7 @@
 .search-results .search-row-icon {
   position: absolute;
   margin-left: -20px;
+  color: #999;
 }
 
 .search-results .separator {

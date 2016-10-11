@@ -41,7 +41,7 @@ const rowView = (row, state, prev, send) => {
   if (row.separator) return separatorView(row, state, prev, send)
 
   if (row.tab && state.tabs[row.tab.id] === null) {
-    console.error('Bad tab row', row)
+    console.error('Bad tab row', state.tabs, row.tab.id)
     return null
   }
 
@@ -139,11 +139,11 @@ function addSeparators (rows) {
       result.push({ separator: true, tab: true })
     }
 
-    if (last && last.isTabRecord && row.isLikeRecord) {
+    if ((last && last.isTabRecord && row.isLikeRecord) || (last === null && row.isLikeRecord)) {
       result.push({ separator: true, like: true })
     }
 
-    if (last && !last.isHistoryRecord && row.isHistoryRecord) {
+    if ((last && !last.isHistoryRecord && row.isHistoryRecord) || (last === null && row.isHistoryRecord)) {
       result.push({ separator: true, history: true })
     }
 

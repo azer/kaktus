@@ -2,15 +2,19 @@ const html = require('choo/html')
 const titleFromURL = require("title-from-url")
 const partition = require("../../partition")
 
-const el = (tab, state, prev, send) => html`
-<webview id="${partition.webviewId(tab, state)}"
-         class="webview active"
-         src="${tab.webviewURL}"
-         partition=${partition.tab(tab, state)}></webview>
+const private = (tab, state, prev, send) => html`
+<div class="private-mode-wrapper">
+  ${webview(tab, state, prev, send)}
+</div>
 `
 
 const webview = (tab, state, prev, send) => {
-  let tree = el(tab, state, prev, send)
+  let tree = html`
+  <webview id="${partition.webviewId(tab, state)}"
+           class="webview active"
+           src="${tab.webviewURL}"
+           partition=${partition.tab(tab, state)}></webview>`
+
   tree.addEventListener('did-start-loading', onLoadStateChange('start', tab, tree, send))
   tree.addEventListener('did-stop-loading', onLoadStateChange('stop', tab, tree, send))
   tree.addEventListener('did-fail-load', onLoadFails(tab, tree, send))
@@ -52,7 +56,9 @@ const webview = (tab, state, prev, send) => {
   return tree
 }
 
-module.exports = webview
+module.exports = (tab, state, prev, send) => {
+  return (partition.isPrivateModeDomain(tab, state) ? private : webview)(tab, state, prev, send)
+}
 
 function onLoadStateChange (eventName, tab, tree, send) {
   const start = eventName === 'start'

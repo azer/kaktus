@@ -112,7 +112,10 @@ function closeSelectedTab (payload, state, send, done) {
 
 function newTab (payload, state, send, done) {
   if (switchToExistingNewTab(payload, state, send, done)) return
-  if (state[state.selectedId] && state[state.selectedId].isNew) return
+  if (state[state.selectedId] && state[state.selectedId].isNew) {
+    if (payload && payload.url) return _go({ url: payload.url, tab: state[state.selectedId] }, state, send, done)
+    return
+  }
 
   db.tabs.create(payload ? payload.url : '', (error, id) => {
     if (error) return console.error('Fatal, can not create tab: ', error)
@@ -124,6 +127,8 @@ function newTab (payload, state, send, done) {
 
       if (!payload || !payload.url) {
         send('search:open', { search: '' }, done)
+      } else {
+        send('search:quit', done)
       }
     })
   })
@@ -144,6 +149,7 @@ function switchToExistingNewTab (payload, state, send, done) {
   if (!existing) return
 
   select(existing.id, state, send, done)
+  send('search:open', { search: '' }, done)
   return true
 }
 
@@ -350,6 +356,10 @@ function withWebView (method) {
   return function (payload, state, send, done) {
     if (!payload) {
       payload = {}
+    }
+
+    if (!payload.tab && payload.tabId) {
+      payload.tab = state[payload.tabId]
     }
 
     if (!payload.tab) {

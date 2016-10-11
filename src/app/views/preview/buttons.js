@@ -31,22 +31,25 @@ function buttons (state) {
     openButton,
     openInNewTabButton,
     state.likes[state.search.preview.url] ? unlikeButton : likeButton,
-    domain && domain.privateMode ? disablePrivateModeButton : enablePrivateModeButton,
-    copyURL,
-    removeFromHistoryButton
+    domain && domain.privateMode ? disablePrivateModeButton : enablePrivateModeButton
   ]
 }
 
 function tabButtons (state) {
   const domain = state.domains[urls.domain(state.search.preview.url)]
+  const tab = state.tabs[state.search.preview.tab.id]
 
-  return [
+  const result = [
     state.likes[state.search.preview.url] ? unlikeButton : likeButton,
     domain && domain.privateMode ? disablePrivateModeButton : enablePrivateModeButton,
-    closeTabButton,
-    muteButton,
-    copyURL
+    closeTabButton
   ]
+
+  if (tab.isPlayingMedia) {
+    result.push(tab.isMuted ? unmuteButton : muteButton)
+  }
+
+  return result
 }
 
 function like (row, prev, send) {
@@ -69,12 +72,12 @@ function removeFromHistory () {
 
 }
 
-function mute () {
-
+function mute (row, prev, send) {
+  send('tabs:mute', { tabId: row.tab.id })
 }
 
-function unmute () {
-
+function unmute (row, prev, send) {
+  send('tabs:unmute', { tabId: row.tab.id })
 }
 
 function openInNewTab (row, prev, send) {
@@ -86,7 +89,8 @@ function openInSameTab (row, prev, send) {
 }
 
 function closeTab (row, prev, send) {
-  send('tabs:close', row.tabId)
+  send('tabs:close', row.tab.id)
+  send('search:setPreview', null)
 }
 
 function copyURL () {
