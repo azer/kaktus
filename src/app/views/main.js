@@ -31,6 +31,7 @@ function ready (state, prev, send) {
   initialized = true
 
   ipcRenderer.on('action', function (event, message) {
+    console.log(message.name, message.payload)
     send(message.name, message.payload)
   })
 }
@@ -39,7 +40,7 @@ function ready (state, prev, send) {
 function privacyIcon (state) {
   if (!state.general.privateMode) return
 
-  return html`<div class="private-mode-icon" title="Private Mode">
+  return html`<div class="private-mode-window-icon" title="Private Mode">
     <i class="fa fa-user-secret" aria-hidden="true"></i>
   </div>`
 }

@@ -10,7 +10,7 @@ build-js:
 
 build-css:
 	@echo "  🛠  Building CSS..."
-	@cat src/app/views/fonts.css  src/app/views/style.css src/app/views/top-bar/style.css src/app/views/title-bar/style.css src/app/views/search-results/style.css src/app/views/webviews/style.css src/app/views/find-in-page/style.css src/app/views/title-bar/spinner.css > build/style.css
+	@cat src/app/views/fonts.css  src/app/views/style.css src/app/views/top-bar/style.css src/app/views/title-bar/style.css src/app/views/search-results/style.css src/app/views/preview/style.css src/app/views/webviews/style.css src/app/views/find-in-page/style.css src/app/views/title-bar/spinner.css > build/style.css
 
 watch-css:
 	@echo "  👓  Watching for changes (CSS)..."

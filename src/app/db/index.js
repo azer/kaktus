@@ -3,7 +3,7 @@ const history = require("./history")
 const likes = require("./likes")
 const meta = require("./meta")
 const embed = require("./embed")
-const search = require("./search")
+const domains = require("./domains")
 
 module.exports = {
   embed,
@@ -11,5 +11,5 @@ module.exports = {
   history,
   likes,
   meta,
-  search
+  domains
 }

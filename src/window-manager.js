@@ -1,5 +1,7 @@
 const { BrowserWindow, ipcMain } = require('electron')
 const createOSMenu = require('./os-menu')
+const partition = require("./partition")
+
 const DEV_MODE = process.env.DEV_MODE === 'ON'
 
 const defaultOptions = {
@@ -9,7 +11,7 @@ const defaultOptions = {
   titleBarStyle: 'hidden-inset',
   icon: `file://${__dirname}/icon.png`,
   webPreferences: {
-    partition: DEV_MODE ? 'persist:kaktus-dev' : 'persist:kaktus'
+    partition: partition.window()
   }
 }
 
@@ -20,7 +22,7 @@ const privateOptions = {
   titleBarStyle: 'hidden-inset',
   icon: `file://${__dirname}/icon.png`,
   webPreferences: {
-    partition: 'private-mode'
+    partition: partition.window(true)
   }
 }
 
@@ -79,7 +81,7 @@ class WindowManager {
   }
 
   createPrivateWindow () {
-    const partitionName = 'private-mode-' + Math.floor(Math.random() * 999999)
+    const partitionName = partition.window(true)
     privateOptions.webPreferences.partition = partitionName
 
     return this._createWindow(privateOptions, [

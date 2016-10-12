@@ -1,6 +1,6 @@
 const now = require("unique-now")
 const db = require("./db")
-const urls = require("./urls")
+const urls = require("../urls")
 
 const store = db.store('tabs', {
   key: { keyPath: "id" },

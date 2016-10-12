@@ -1,10 +1,10 @@
-const db = require("../../db")
+const search = require("../../search")
 const input = require("../../input")
 
 module.exports = {
   open,
   quit,
-  search,
+  search: searchEffect,
   up,
   down,
   selectInput: input.select.bind(null, 'url')
@@ -17,6 +17,11 @@ function open (payload, state, send, done) {
   send('search:setAsOpen', done)
   send('findInPage:disable', done)
 
+  if (payload && payload.results && payload.results.length > 0) {
+    send('likes:recoverFromSearch', payload.results, done)
+    send('domains:recoverFromSearch', payload.results, done)
+  }
+
   if (payload && payload.select) {
     input.select('url')
   } else {
@@ -24,7 +29,7 @@ function open (payload, state, send, done) {
   }
 
   if (payload.search !== undefined) {
-    search({ query: payload.search }, state, send, done)
+    searchEffect({ query: payload.search }, state, send, done)
   }
 }
 
@@ -33,14 +38,16 @@ function quit (payload, state, send, done) {
   send('search:setAsClosed', done)
 }
 
-function search (payload, state, send, done) {
+function searchEffect (payload, state, send, done) {
   const query = payload && payload.query !== undefined ? payload.query : state.query
 
-  db.search(query, (error, results) => {
+  search(query, (error, results) => {
     if (error) return console.error('Failed to update search results: ', query)
 
     //send('search:setPreview', results[0], done)
     send('search:setResults', results, done)
+    send('likes:recoverFromSearch', results, done)
+    send('domains:recoverFromSearch', results, done)
   })
 }
 

@@ -2,6 +2,7 @@ const db = require("../../db")
 const searchRows = require("../../models/tabs").searchRows
 const listOfTabs = require("../../list-of-tabs")
 const Tab = require("./tab")
+const urls = require("../../urls")
 
 const MAX_ZOOM_LEVEL = 9
 const MIN_ZOOM_LEVEL = -8
@@ -17,8 +18,7 @@ module.exports = {
   closeSelectedTab,
   updateURL,
   updateURLMeta,
-  like,
-  unlike,
+  updateByURL,
   back: withWebView(back),
   forward: withWebView(forward),
   reload: withWebView(reload),
@@ -37,19 +37,25 @@ module.exports = {
 }
 
 function recoverTabs (payload, state, send, done) {
-  db.embed(db.tabs.all, [db.meta, db.history, db.likes], (error, all) => {
+  db.embed(db.tabs.all, [db.meta, db.history, db.likes, db.domains], (error, all) => {
     if (error) return console.error('can not recover tabs', error)
     if (all.length === 0) return newTab(null, state, send, done)
+
+    send('likes:recover', all, done)
+    send('domains:recover', all, done)
 
     let newState = {}
 
     all.forEach(el => {
-      let url = ''
+      let protocol = ""
+      let url = ""
+
       if (el.record) {
-        url = `${el.record.protocol || 'http'}://${el.record.url}`
+        protocol = el.record.protocol
+        url = el.record.url
       }
 
-      const t = new Tab(el.id, url)
+      const t = new Tab(el.id, protocol, url)
 
       if (el.meta) {
         t.image = el.meta.image
@@ -60,7 +66,6 @@ function recoverTabs (payload, state, send, done) {
 
       t.createdAt = el.createdAt
       t.isSelected = !!el.isSelected
-      t.isLiked = !!el.isLiked
 
       if (t.isSelected) {
         newState.selectedId = t.id
@@ -70,6 +75,7 @@ function recoverTabs (payload, state, send, done) {
     })
 
     send('tabs:setState', newState, done)
+
     if (newState[newState.selectedId].isNew) {
       send('search:open', { search: '' }, done)
     }
@@ -106,7 +112,10 @@ function closeSelectedTab (payload, state, send, done) {
 
 function newTab (payload, state, send, done) {
   if (switchToExistingNewTab(payload, state, send, done)) return
-  if (state[state.selectedId] && state[state.selectedId].isNew) return
+  if (state[state.selectedId] && state[state.selectedId].isNew) {
+    if (payload && payload.url) return _go({ url: payload.url, tab: state[state.selectedId] }, state, send, done)
+    return
+  }
 
   db.tabs.create(payload ? payload.url : '', (error, id) => {
     if (error) return console.error('Fatal, can not create tab: ', error)
@@ -114,10 +123,12 @@ function newTab (payload, state, send, done) {
     db.tabs.select(id, error => {
       if (error) console.error('Can not select the new tab created', error)
 
-      send('tabs:create', { id: id, url: payload && payload.url || '', select: true }, done)
+      send('tabs:create', { id, url: payload && payload.url || '', select: true }, done)
 
       if (!payload || !payload.url) {
         send('search:open', { search: '' }, done)
+      } else {
+        send('search:quit', done)
       }
     })
   })
@@ -138,6 +149,7 @@ function switchToExistingNewTab (payload, state, send, done) {
   if (!existing) return
 
   select(existing.id, state, send, done)
+  send('search:open', { search: '' }, done)
   return true
 }
 
@@ -149,32 +161,30 @@ function select (id, state, send, done) {
   })
 }
 
-function like (tab, state, send, done) {
-  db.likes.like(tab.url, error => {
-    if (error) return console.error('can not like %s', id)
+function updateByURL(payload, state, send, done) {
+  const url = payload.url
+  let tab = null
 
-    send('tabs:update', {
-      tab: tab,
-      props: {
-        isLiked: true
-      }
-    }, done)
-  })
-}
+  for (let t of state) {
+    if (t.url === url) {
+      tab = t
+      break
+    }
+  }
 
-function unlike (tab, state, send, done) {
-  db.likes.unlike(tab.url, error => {
-    if (error) return console.error('can not unlike %s', id)
-    send('tabs:update', {
-      tab: tab,
-      props: {
-        isLiked: false
-      }
-    }, done)
+  if (!tab) return console.error('URL is not opened as a tab')
+
+  send('tabs:update', {
+    tab,
+    props: payload.props
   })
 }
 
 function go (payload, state, send, done) {
+  if (!payload.tab) {
+    payload.tab = state[state.selectedId]
+  }
+
   db.tabs.get(payload.url, (error, tab) => {
     if (error) return console.error('can not get tabs')
     if (!tab) return _go(payload, state, send, done)
@@ -192,27 +202,20 @@ function go (payload, state, send, done) {
 function _go (payload, state, send, done) {
   console.log('Go to %s', payload.url)
 
+  const url = urls.normalize(payload.url)
+
   send('tabs:openURL', payload, done)
 
-  if (!/^\w+:\/\//.test(payload.url)) return
-
-  db.tabs.updateURL(payload.tab.id, payload.url, error => {
+  db.tabs.updateURL(payload.tab.id, url, error => {
     if (error) console.error('Can not update tab url', payload.url, error)
   })
 
-  db.history.visit(payload.url, (error) => {
+  db.history.visit(url, (error) => {
     if (error) return console.error('Can not add %s to history', payload.url, error)
   })
 
-  db.likes.get(payload.url, (error, isLiked) => {
-    if (error) return console.error('can not read like value from db', error)
+  db.domains.get(url, (error, domain) => {
 
-    send('tabs:update', {
-      tab: payload.tab,
-      props: {
-        isLiked
-      }
-    }, done)
   })
 }
 
@@ -222,20 +225,14 @@ function updateURL (payload, state, send, done) {
   send('tabs:update', {
     tab: payload.tab,
     props: {
-      url: payload.url
+      protocol: urls.protocol(payload.url),
+      url: urls.clean(payload.url),
+      webviewURL: payload.url,
     }
   }, done)
 
-  db.likes.get(payload.url, (error, isLiked) => {
-    if (error) console.error('can not read like value from db', error)
-
-    send('tabs:update', {
-      tab: payload.tab,
-      props: {
-        isLiked
-      }
-    }, done)
-  })
+  send('likes:get', urls.clean(payload.url), done)
+  send('domains:get', urls.clean(payload.url), done)
 
   if (!/^\w+:\/\//.test(payload.url)) return
 
@@ -361,11 +358,15 @@ function withWebView (method) {
       payload = {}
     }
 
+    if (!payload.tab && payload.tabId) {
+      payload.tab = state[payload.tabId]
+    }
+
     if (!payload.tab) {
       payload.tab = state[state.selectedId]
     }
 
-    var webview = document.querySelector(`#${payload.tab.id}`)
+    var webview = document.querySelector(`#${payload.tab.id}`) || document.querySelector(`#${payload.tab.id}-private`)
     if (!webview) return
 
     method(webview, payload, send, done)

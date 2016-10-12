@@ -1,33 +1,38 @@
 const html = require('choo/html')
 const titleFromURL = require("title-from-url")
+const partition = require("../../partition")
 
-const webview = (state, prev, send) => {
+const private = (tab, state, prev, send) => html`
+<div class="private-mode-wrapper">
+  ${webview(tab, state, prev, send)}
+</div>
+`
 
+const webview = (tab, state, prev, send) => {
   let tree = html`
-    <webview id="${state.id}"
-             class="webview active"
-             src=${state.url}
-             partition=${state.partitionName}></webview>
-  `
+  <webview id="${partition.webviewId(tab, state)}"
+           class="webview active"
+           src="${tab.webviewURL}"
+           partition=${partition.tab(tab, state)}></webview>`
 
-  tree.addEventListener('did-start-loading', onLoadStateChange('start', state, tree, send))
-  tree.addEventListener('did-stop-loading', onLoadStateChange('stop', state, tree, send))
-  tree.addEventListener('did-fail-load', onLoadFails(state, tree, send))
+  tree.addEventListener('did-start-loading', onLoadStateChange('start', tab, tree, send))
+  tree.addEventListener('did-stop-loading', onLoadStateChange('stop', tab, tree, send))
+  tree.addEventListener('did-fail-load', onLoadFails(tab, tree, send))
 
-  tree.addEventListener('crashed', onCrash(state, tree, send))
-  tree.addEventListener('gpu-crashed', onCrash(state, tree, send))
-  tree.addEventListener('media-started-playing', onMediaStateChange(true, state, tree, send))
-  tree.addEventListener('media-paused', onMediaStateChange(false, state, tree, send))
+  tree.addEventListener('crashed', onCrash(tab, tree, send))
+  tree.addEventListener('gpu-crashed', onCrash(tab, tree, send))
+  tree.addEventListener('media-started-playing', onMediaStateChange(true, tab, tree, send))
+  tree.addEventListener('media-paused', onMediaStateChange(false, tab, tree, send))
 
-  tree.addEventListener('page-title-updated', (event) => updateURLMeta(send, state, {
+  tree.addEventListener('page-title-updated', (event) => updateURLMeta(send, tab, {
     title: event.title
   }))
 
-  tree.addEventListener('page-favicon-updated', (event) => updateURLMeta(send, state, {
+  tree.addEventListener('page-favicon-updated', (event) => updateURLMeta(send, tab, {
     icon: event.favicons[0]
   }))
 
-  tree.addEventListener('will-navigate', (event) => update(send, state, {
+  tree.addEventListener('will-navigate', (event) => update(send, tab, {
     url: event.url,
     title: titleFromURL(event.url),
     icon: '',
@@ -36,15 +41,14 @@ const webview = (state, prev, send) => {
     canGoForward: tree.canGoForward()
   }))
 
-  tree.addEventListener('did-navigate', (event) =>  updateURL(send, state, event.url))
-  tree.addEventListener('did-navigate-in-page', (event) => updateURL(send, state, event.url))
+  tree.addEventListener('did-navigate', (event) =>  updateURL(send, tab, event.url))
+  tree.addEventListener('did-navigate-in-page', (event) => updateURL(send, tab, event.url))
 
   tree.addEventListener('new-window', (event) => send('tabs:newTab', { url: event.url }))
 
   tree.addEventListener('dom-ready', (event) => {
-    copyMetaInfo(state, tree, send)
-
-    update(send, state, {
+    copyMetaInfo(tab, tree, send)
+    update(send, tab, {
       isDOMReady: true
     })
   })
@@ -52,7 +56,9 @@ const webview = (state, prev, send) => {
   return tree
 }
 
-module.exports = webview
+module.exports = (tab, state, prev, send) => {
+  return (partition.isPrivateModeDomain(tab, state) ? private : webview)(tab, state, prev, send)
+}
 
 function onLoadStateChange (eventName, tab, tree, send) {
   const start = eventName === 'start'
@@ -63,18 +69,12 @@ function onLoadStateChange (eventName, tab, tree, send) {
     send(`tabs:${eventName}Loading`, {
       tab,
       props: {
-        //title: start ? tab.title : tree.getTitle(),
-        //url: start ? tab.url : tree.getURL(),
         canGoBack: tree.canGoBack(),
         canGoForward: tree.canGoForward(),
         isLoading: start,
         isDOMReady: !start
       }
     })
-
-    /*if (!start) {
-      send(`search:quit`)
-    }*/
   }
 }
 
@@ -91,6 +91,12 @@ function onLoadFails (tab, tree, send) {
       tab,
       props: {
         isLoading: false,
+        url: event.validatedURL,
+        title: titleFromURL(event.validatedURL),
+        icon: '',
+        image: null,
+        canGoBack: tree.canGoBack(),
+        canGoForward: tree.canGoForward(),
         error: {
           code: event.errorCode,
           description: event.errorDescription,
@@ -139,7 +145,6 @@ function updateURLMeta (send, tab, props) {
     props
   })
 }
-
 
 function onMediaStateChange (isPlaying, tab, tree, send) {
   return function (event) {

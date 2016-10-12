@@ -22,7 +22,7 @@
   display: none;
 }
 
-.webview, .error {
+.webview, .error, .private-mode-wrapper {
   width: 100%;
   height: 100%;
 }

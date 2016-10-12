@@ -12,8 +12,18 @@ const titleText = (tab, prev, send) => html`
 </div>
 `
 
+const errorText = (tab, prev, send) => html`
+<div class="title-text">
+  ${tab.webviewURL}
+</div>
+`
+
 const surfingBar = (state, prev, send) => {
-  const text = titleText(state.tabs[state.tabs.selectedId], prev, send)
+  let text = titleText(state.tabs[state.tabs.selectedId], prev, send)
+
+  if (state.tabs[state.tabs.selectedId].error) {
+    text = errorText(state.tabs[state.tabs.selectedId], prev, send)
+  }
 
   return html`
   <div class="top-bar surfing-bar">

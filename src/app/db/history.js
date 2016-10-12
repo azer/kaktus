@@ -1,5 +1,5 @@
 const db = require("./db")
-const urls = require("./urls")
+const urls = require("../urls")
 const store = db.store('history', {
   key: { keyPath: "url" },
   indexes: [
@@ -14,7 +14,8 @@ module.exports = {
   store,
   visit,
   get,
-  all
+  all,
+  popular
 }
 
 function visit (url, callback) {
@@ -39,12 +40,21 @@ function save (props, callback) {
 }
 
 function all (options, callback) {
+  options.index = options.index || 'lastUpdatedAt'
+  select(options, callback)
+}
+
+function popular (callback) {
+  select({ index: 'counter' }, callback)
+}
+
+function select (options, callback) {
   const result = []
   const limit = options.limit || 25
   const range = options.range || null
   const direction = options.direction || 'prev'
 
-  store.selectRange('lastUpdatedAt', range, direction, (error, row) => {
+  store.selectRange(options.index, range, direction, (error, row) => {
     if (error) return callback(error)
     if (!row) return callback(undefined, result)
 

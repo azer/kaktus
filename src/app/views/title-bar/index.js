@@ -4,6 +4,8 @@ const titleFromURL = require("title-from-url")
 const likeButton = require("./like-button")
 const createTabButton = require("./create-tab")
 const findInPageBar = require("../find-in-page").bar
+const privateModeIcon = require("./private-mode-icon")
+const urls = require("../../urls")
 
 module.exports = createTitleBar
 
@@ -23,13 +25,17 @@ function createTitleBar (children, onClick) {
 }
 
 function button (state, prev, send) {
-  const selectedTab = state.tabs[state.tabs.selectedId]
-
-  if (selectedTab.isNew) return null
-
+  if (state.tabs[state.tabs.selectedId].isNew) return null
   if (state.search.isOpen) {
     return createTabButton(state, prev, send)
   }
 
-  return likeButton(selectedTab, prev, send)
+  if (isPrivateModeEnabled(state)) return privateModeIcon(state, prev, send)
+
+  return likeButton(state, prev, send)
+}
+
+function isPrivateModeEnabled (state, prev, send) {
+  const domain = state.domains[urls.domain(state.tabs[state.tabs.selectedId].url)]
+  return state.general.privateMode || ( domain && domain.privateMode )
 }
