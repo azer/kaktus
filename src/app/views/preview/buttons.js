@@ -25,11 +25,13 @@ module.exports = view
 function buttons (state) {
   if (state.search.preview.tab && state.tabs[state.search.preview.tab.id]) return tabButtons(state)
 
-  const domain = state.domains[urls.domain(state.search.preview.url)]
+  const preview = state.search.preview
+  const domain = state.domains[urls.domain(preview.url)]
+  const selectedTab = state.tabs[state.tabs.selectedId]
 
   return [
-    openButton,
-    state.tabs[state.tabs.selectedId].isNew ? null : openInNewTabButton,
+    selectedTab.url !== preview.url ? openButton : null,
+    selectedTab.isNew && selectedTab.url !== preview.url ? null : openInNewTabButton,
     state.likes[state.search.preview.url] ? unlikeButton : likeButton,
     domain && domain.privateMode ? disablePrivateModeButton : enablePrivateModeButton
   ]
