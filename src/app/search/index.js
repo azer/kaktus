@@ -8,6 +8,9 @@ const likes = require("../db/likes")
 const domains = require("../db/domains")
 const meta = require("../db/meta")
 
+const filters = require("./filters")
+const sort = require("./sort")
+
 module.exports = search
 
 function search (query, callback) {
@@ -15,5 +18,9 @@ function search (query, callback) {
     return recent(callback)
   }
 
-  embed(meta.search, [anglicize(query)], [history, likes, tabs, domains], callback)
+  embed(meta.search, [anglicize(query)], [history, likes, tabs, domains], (error, result) => {
+    if (error) return callback(error)
+
+    callback(undefined, result.filter(filters.isUnique()).filter(filters.isValid).sort(sort).slice(0, 10))
+  })
 }

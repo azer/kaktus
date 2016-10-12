@@ -45,6 +45,8 @@ const rowView = (row, state, prev, send) => {
     return null
   }
 
+  const selectedTab = state.tabs[state.tabs.selectedId]
+
   return html`
     <div class="row ${row.tab ? 'tab' : ''} ${isSelected ? 'selected' : ''}"
          onmouseover=${setPreview(row, prev, send)}
@@ -53,8 +55,8 @@ const rowView = (row, state, prev, send) => {
         ${rowIcon(row, state, prev, send)}
         <div class="row-text-wrapper">${rowTitle(row)}</div>
       </div>
-      ${row.tab && isSelected ? closeButton(row.tab, prev, send) : null}
-      ${!row.tab && isSelected ? openInNewTabButton(row, prev, send) : null}
+      ${row.tab && isSelected && !selectedTab.isNew ? closeButton(row.tab, prev, send) : null}
+      ${!row.tab && isSelected && !selectedTab.isNew ? openInNewTabButton(row, prev, send) : null}
     </div>
   `
 }
@@ -132,18 +134,19 @@ function createSeparator (options) {
 
 function addSeparators (rows) {
   const result = []
-  let last = null
+  let historySeparator = false
+  let likeSeparator = false
+  let tabSeparator = false
 
   for (let row of rows) {
-    if (last === null && row.isTabRecord) {
+    if (row.tab && !tabSeparator) {
+      tabSeparator = true
       result.push({ separator: true, tab: true })
-    }
-
-    if ((last && last.isTabRecord && row.isLikeRecord) || (last === null && row.isLikeRecord)) {
+    } else if (!row.tab && row.like && !likeSeparator) {
+      likeSeparator = true
       result.push({ separator: true, like: true })
-    }
-
-    if ((last && !last.isHistoryRecord && row.isHistoryRecord) || (last === null && row.isHistoryRecord)) {
+    } else if (!row.tab && !row.like && row.record && !historySeparator) {
+      historySeparator = true
       result.push({ separator: true, history: true })
     }
 

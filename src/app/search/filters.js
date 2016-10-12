@@ -1,5 +1,10 @@
 module.exports = {
-  isUnique
+  isUnique,
+  isValid
+}
+
+function isValid (row) {
+  return !!row.record
 }
 
 function isUnique () {

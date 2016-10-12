@@ -5,7 +5,7 @@ const uniques = require("uniques")
 const loop = require("parallel-loop")
 
 const db = require("./db")
-const urls = require("./urls")
+const urls = require("../urls")
 const store = db.store('meta', {
   key: { keyPath: "metaURL" },
   indexes: [
@@ -42,17 +42,46 @@ function save (props, callback) {
   })
 }
 
-function search (query, callback) {
-  //var keywords = query.split(/[^\w]+/)
-  const rows = []
-
+function _search (query, each, done) {
   store.selectRange('tags', { only: query }, function (error, result) {
     if (error) return callback(error)
-    if (!result) return callback(undefined, rows)
+    if (result) {
+      each(result.value)
+      return result.continue()
+    }
 
-    rows.push(result.value)
-    result.continue()
+    store.selectRange('url', { from: query, to: query + 'uffff' }, function (error, result) {
+      if (error) return callback(error)
+      if (result) {
+        each(result.value)
+        return result.continue()
+      }
+
+      done()
+    })
   })
+}
+
+function search (query, callback) {
+  var keywords = query.trim().split(/[^\w]+/).filter(q => q.length)
+  const rows = []
+  const added = {}
+
+  loop(keywords.length, each, errors => {
+    if (errors) return callback(errors[0])
+    callback(undefined, rows)
+  })
+
+  function each (done, index) {
+    _search(keywords[index], add, done)
+  }
+
+  function add (row) {
+    if (added[row.url]) return
+
+    added[row.url] = true
+    rows.push(row)
+  }
 }
 
 function get (url, callback) {

@@ -16,20 +16,20 @@ const copyURLButton = button({ title: 'Copy URL', icon: 'copy', onclick: copyURL
 
 const view = (state, prev, send) => html`
   <div class="preview-buttons">
-    ${buttons(state).map(b => b(state.search.preview, prev, send))}
+    ${buttons(state).filter(b => !!b).map(b => b(state.search.preview, prev, send))}
   </div>
 `
 
 module.exports = view
 
 function buttons (state) {
-  if (state.search.preview.tab) return tabButtons(state)
+  if (state.search.preview.tab && state.tabs[state.search.preview.tab.id]) return tabButtons(state)
 
   const domain = state.domains[urls.domain(state.search.preview.url)]
 
   return [
     openButton,
-    openInNewTabButton,
+    state.tabs[state.tabs.selectedId].isNew ? null : openInNewTabButton,
     state.likes[state.search.preview.url] ? unlikeButton : likeButton,
     domain && domain.privateMode ? disablePrivateModeButton : enablePrivateModeButton
   ]
