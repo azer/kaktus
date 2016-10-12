@@ -2,8 +2,10 @@
 
 A new minimalistic web browser. It's currently usable, [and there is a lot to do](#roadmap).
 
+Screenshots: [Simple View](https://cldup.com/6jOWAjYdpo.png) | [Tabbing](https://cldup.com/wDadS2XGrb.gif) | [Private Mode for Sites](https://cldup.com/qsYAu0F-ja.png)
+
+Index
 * [Download](#download)
-* [How It Works](#how-it-works)
 * [Keyboard Shortcuts](#keyboard-shortcuts)
 * [Roadmap](#roadmap)
 * [Call for Designers](#call-for-designers)
@@ -24,8 +26,9 @@ A new minimalistic web browser. It's currently usable, [and there is a lot to do
 * Command+F: Find in the page
 * Command+W: Close Tab
 
-## Tabbing
-![](https://cldup.com/wDadS2XGrb.gif)
+## How It Works
+
+* [Tabbing]()
 
 ## Roadmap
 
