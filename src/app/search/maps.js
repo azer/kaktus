@@ -1,13 +1,14 @@
+const meta = require("../db/meta");
+
 module.exports = {
   tab,
   record,
-  like
+  like,
+  popularRecord
 }
 
 function tab (row) {
-  if (!row.url) return null
-
-  const result = row.meta
+  const result = row.meta || meta.draft(row.url)
   result.record = row.record
   result.like = row.like
   result.tab = row
@@ -23,7 +24,7 @@ function tab (row) {
 function record (row) {
   if (!row.meta) return null
 
-  const result = row.meta
+  const result = row.meta || meta.draft(row.url)
   result.tab = row.tab
   result.like = row.like
   result.record = row
@@ -42,5 +43,21 @@ function like (row) {
   result.record = row.record
   result.like = row
   result.isLikeRecord = true
+  return result
+}
+
+function popularRecord (row) {
+  if (!row.meta) return null
+
+  const result = row.meta || meta.draft(row.url)
+  result.tab = row.tab
+  result.like = row.like
+  result.record = row
+  result.isPopularRecord = true
+
+  delete result.record.meta
+  delete result.record.tab
+  delete result.record.like
+
   return result
 }

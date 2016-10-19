@@ -1,5 +1,6 @@
 const mix = require("mix-objects")
 const lessCommonWords = require("less-common-words")
+const titleFromURL = require("title-from-url");
 const anglicize = require("anglicize")
 const uniques = require("uniques")
 const loop = require("parallel-loop")
@@ -20,7 +21,8 @@ module.exports = {
   store,
   save,
   search,
-  get
+  get,
+  draft
 }
 
 function save (props, callback) {
@@ -67,6 +69,8 @@ function search (query, callback) {
   const rows = []
   const added = {}
 
+  console.log('Searching ', keywords)
+
   loop(keywords.length, each, errors => {
     if (errors) return callback(errors[0])
     callback(undefined, rows)
@@ -109,9 +113,10 @@ function extractTagsFromURL (url) {
   return lessCommonWords(url)
 }
 
-function emptyMeta () {
+function draft (url) {
   return {
-    title: 'New Tab',
+    url: url,
+    title: url ? titleFromURL(url) : 'New Tab',
     description: '',
     icon: '',
     image: '',

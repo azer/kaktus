@@ -1,6 +1,6 @@
 const { BrowserWindow, ipcMain } = require('electron')
 const createOSMenu = require('./os-menu')
-const partition = require("./partition")
+const partition = require("./app/partition")
 
 const DEV_MODE = process.env.DEV_MODE === 'ON'
 

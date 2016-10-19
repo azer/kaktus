@@ -3,7 +3,8 @@ module.exports = {
   meta,
   protocol,
   domain,
-  normalize
+  normalize,
+  isURL
 }
 
 function protocol (url) {
@@ -48,5 +49,9 @@ function normalize (input) {
 }
 
 function isSearchQuery (input) {
-  return input.indexOf(' ') > -1 || input.indexOf('.') === -1
+  return !isURL(input)
+}
+
+function isURL (input) {
+  return input.indexOf(' ') === -1 && (/^\w+:\/\//.test(input) || input.indexOf('.') > 0 || input.indexOf(':') > 0)
 }

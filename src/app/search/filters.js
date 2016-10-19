@@ -1,10 +1,20 @@
 module.exports = {
   isUnique,
-  isValid
+  isValidMeta,
+  isValidRecord,
+  isNotPrivate
 }
 
-function isValid (row) {
-  return !!row.record
+function isValidMeta (row) {
+  return !!row.record && isNotPrivate(row)
+}
+
+function isValidRecord (row) {
+  return !!row.meta && isNotPrivate(row)
+}
+
+function isNotPrivate (row) {
+  return !row.domain || !row.domain.privateMode
 }
 
 function isUnique () {

@@ -1,5 +1,6 @@
 const db = require("./db")
 const urls = require("../urls")
+const meta = require("./meta")
 const store = db.store('history', {
   key: { keyPath: "url" },
   indexes: [
@@ -15,7 +16,9 @@ module.exports = {
   visit,
   get,
   all,
-  popular
+  select,
+  popular,
+  popularDomains
 }
 
 function visit (url, callback) {
@@ -44,8 +47,14 @@ function all (options, callback) {
   select(options, callback)
 }
 
-function popular (callback) {
-  select({ index: 'counter' }, callback)
+function popular (options, callback) {
+  if (!options) {
+    options = {}
+  }
+
+  options.index = 'counter'
+
+  select(options, callback)
 }
 
 function select (options, callback) {
@@ -70,4 +79,34 @@ function select (options, callback) {
 
 function get (url, callback) {
   store.get(url, callback)
+}
+
+function popularDomains (options, callback) {
+  const result = []
+  const limit = 25
+  const range = null
+  const direction = 'prev'
+  const index = 'counter'
+
+  const added = {}
+
+  store.selectRange(index, range, direction, (error, row) => {
+    if (error) return callback(error)
+    if (!row) return callback(undefined, result)
+
+    const domain = urls.domain(row.value.url)
+
+    if (added[domain]) return row.continue()
+
+    added[domain] = true
+
+    row.value.url = domain
+    result.push(row.value)
+
+    if (result.length >= limit) {
+      return callback(undefined, result)
+    }
+
+    row.continue()
+  })
 }

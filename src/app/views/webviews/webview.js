@@ -1,5 +1,4 @@
 const html = require('choo/html')
-const titleFromURL = require("title-from-url")
 const partition = require("../../partition")
 
 const private = (tab, state, prev, send) => html`
@@ -34,7 +33,6 @@ const webview = (tab, state, prev, send) => {
 
   tree.addEventListener('will-navigate', (event) => update(send, tab, {
     url: event.url,
-    title: titleFromURL(event.url),
     icon: '',
     image: null,
     canGoBack: tree.canGoBack(),
@@ -92,7 +90,6 @@ function onLoadFails (tab, tree, send) {
       props: {
         isLoading: false,
         url: event.validatedURL,
-        title: titleFromURL(event.validatedURL),
         icon: '',
         image: null,
         canGoBack: tree.canGoBack(),

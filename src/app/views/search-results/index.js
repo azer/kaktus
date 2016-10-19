@@ -5,9 +5,9 @@ const openInNewTabButton = require("./open-in-new-tab-button")
 const isButton = require("../is-button")
 
 const tabSeparator = createSeparator({ title: 'Tabs', icon: 'bars' })
-const historySeparator = createSeparator({ title: 'History', icon: 'file-o'  })
+const historySeparator = createSeparator({ title: 'Recently Visited', icon: 'file-o'  })
 const likeSeparator = createSeparator({ title: 'Liked', icon: 'heart'  })
-
+const popularSeparator = createSeparator({ title: 'Popular', icon: 'fire'  })
 
 const results = (state, prev, send) => {
   const rows = addSeparators(filter(state.search.results))
@@ -55,14 +55,14 @@ const rowView = (row, state, prev, send) => {
         ${rowIcon(row, state, prev, send)}
         <div class="row-text-wrapper">${rowTitle(row)}</div>
       </div>
-      ${row.tab && isSelected && !selectedTab.isNew ? closeButton(row.tab, prev, send) : null}
+      ${row.tab && !row.isNew ? closeButton(row.tab, prev, send) : null}
       ${!row.tab && isSelected && !selectedTab.isNew ? openInNewTabButton(row, prev, send) : null}
     </div>
   `
 }
 
 const separatorView = (row, state, prev, send) => {
-  return (row.tab ? tabSeparator : row.like ? likeSeparator : historySeparator)(state, prev, send)
+  return (row.tab ? tabSeparator : row.popular ? popularSeparator : row.like ? likeSeparator : historySeparator)(state, prev, send)
 }
 
 const likedRowIcon = (state, prev, send) => html`
@@ -75,19 +75,24 @@ const historicalRowIcon = (state, prev, send) => html`
   <i class="fa fa-file-o" aria-hidden="true"></i>
 </div>`
 
+const popularRowIcon = (state, prev, send) => html`
+<div class="search-row-icon">
+  <i class="fa fa-fire" aria-hidden="true"></i>
+</div>`
+
 module.exports = results
 
 function rowTitle (row) {
-  return row.title || ''
+  return row.title || row.url || ''
 }
 
 function rowIcon (row, state, prev, send) {
-  if (row.tab) return null
+  if (row.tab || row.isPopularRecord) return null
   return (state.likes[row.url] ?  likedRowIcon : historicalRowIcon)(row, prev, send)
 }
 
 function rowIconURL (row) {
-  if (!row.tab) return ''
+  if (!row.tab && !row.isPopularRecord) return ''
 
   return row.icon
 }
@@ -120,7 +125,7 @@ function setPreview (row, prev, send) {
 
 function filter (list) {
   return list.filter(el => {
-    return el.title && el.url
+    return el.url
   })
 }
 
@@ -137,15 +142,19 @@ function addSeparators (rows) {
   let historySeparator = false
   let likeSeparator = false
   let tabSeparator = false
+  let popularSeparator = false
 
   for (let row of rows) {
     if (row.tab && !tabSeparator) {
       tabSeparator = true
       result.push({ separator: true, tab: true })
+    } else if (!row.tab && row.isPopularRecord && !popularSeparator) {
+        popularSeparator = true
+        result.push({ separator: true, popular: true })
     } else if (!row.tab && row.like && !likeSeparator) {
       likeSeparator = true
       result.push({ separator: true, like: true })
-    } else if (!row.tab && !row.like && row.record && !historySeparator) {
+    } else if (!row.tab && !row.like && !row.isPopularRecord && row.record && !historySeparator) {
       historySeparator = true
       result.push({ separator: true, history: true })
     }

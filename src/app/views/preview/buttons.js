@@ -1,6 +1,7 @@
 const html = require('choo/html')
 const button = require("./button")
 const urls = require("../../urls")
+const clipboard = electronRequire("electron").clipboard
 
 const likeButton = button({ title: 'Like', 'icon': 'heart', onclick: like })
 const unlikeButton = button({ title: 'Liked', classes: ['active'], icon: 'heart', onclick: unlike })
@@ -33,7 +34,8 @@ function buttons (state) {
     selectedTab.url !== preview.url ? openButton : null,
     selectedTab.isNew && selectedTab.url !== preview.url ? null : openInNewTabButton,
     state.likes[state.search.preview.url] ? unlikeButton : likeButton,
-    domain && domain.privateMode ? disablePrivateModeButton : enablePrivateModeButton
+    domain && domain.privateMode ? disablePrivateModeButton : enablePrivateModeButton,
+    copyURLButton
   ]
 }
 
@@ -50,6 +52,8 @@ function tabButtons (state) {
   if (tab.isPlayingMedia) {
     result.push(tab.isMuted ? unmuteButton : muteButton)
   }
+
+  result.push(copyURLButton)
 
   return result
 }
@@ -95,6 +99,6 @@ function closeTab (row, prev, send) {
   send('search:setPreview', null)
 }
 
-function copyURL () {
-
+function copyURL (row, prev, send) {
+  clipboard.writeText(`${row.record.protocol}://${row.record.url}`)
 }

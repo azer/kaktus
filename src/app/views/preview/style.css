@@ -77,3 +77,11 @@
 .preview-button.private-mode.active .preview-button-icon {
   color: rgb(90, 62, 121);
 }
+
+.preview-button.copy-url:active .preview-button-text span {
+  display: none;
+}
+
+.preview-button.copy-url:active .preview-button-text:after {
+  content: "Copied"
+}

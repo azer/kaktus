@@ -9,7 +9,7 @@ const input = (state, prev, send) => {
 
   return html`
     <input class="url"
-      value='${cleanURL(state.search.query)}'
+      value='${state.search.query}'
       placeholder='${selectedTab.url || "Search or type a website name"}'
       onkeyup=${onKeyUp(state, prev, send)}
       oninput=${onInput(selectedTab, prev, send)}
@@ -91,15 +91,6 @@ function onInput (tab, prev, send) {
       query: value
     })
   }
-}
-
-function cleanURL (url) {
-  if (!/^\w+:\/\//.test(url)) return url
-
-  return url
-    .trim()
-    .replace(/^\w+:\/\//, '')
-    .replace(/(\/|\?|\&)*$/, '')
 }
 
 function selectedTab (state) {

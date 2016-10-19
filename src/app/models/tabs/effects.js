@@ -77,7 +77,7 @@ function recoverTabs (payload, state, send, done) {
     send('tabs:setState', newState, done)
 
     if (newState[newState.selectedId].isNew) {
-      send('search:open', { search: '' }, done)
+      send('search:open', { query: '' }, done)
     }
   })
 }
@@ -126,7 +126,7 @@ function newTab (payload, state, send, done) {
       send('tabs:create', { id, url: payload && payload.url || '', select: true }, done)
 
       if (!payload || !payload.url) {
-        send('search:open', { search: '' }, done)
+        send('search:open', { query: '' }, done)
       } else {
         send('search:quit', done)
       }
@@ -149,7 +149,7 @@ function switchToExistingNewTab (payload, state, send, done) {
   if (!existing) return
 
   select(existing.id, state, send, done)
-  send('search:open', { search: '' }, done)
+  send('search:open', { query: '' }, done)
   return true
 }
 
