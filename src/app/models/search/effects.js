@@ -4,13 +4,15 @@ const input = require("../../input")
 module.exports = {
   open,
   quit,
-  search: searchEffect,
+  search: _search,
   up,
   down,
   selectInput: input.select.bind(null, 'url')
 }
 
 function open (payload, state, send, done) {
+
+
   send('search:setQuery', payload && payload.query || '', done)
   send('search:setPreview', payload && payload.preview || null, done)
   send('search:setResults', payload && payload.results || [], done)
@@ -28,8 +30,8 @@ function open (payload, state, send, done) {
     input.focus('url')
   }
 
-  if (payload.search !== undefined) {
-    searchEffect({ query: payload.search }, state, send, done)
+  if (payload && payload.query !== undefined) {
+    _search(payload, state, send, done)
   }
 }
 
@@ -38,16 +40,19 @@ function quit (payload, state, send, done) {
   send('search:setAsClosed', done)
 }
 
-function searchEffect (payload, state, send, done) {
+function _search (payload, state, send, done) {
   const query = payload && payload.query !== undefined ? payload.query : state.query
 
   search(query, (error, results) => {
     if (error) return console.error('Failed to update search results: ', query)
 
-    //send('search:setPreview', results[0], done)
     send('search:setResults', results, done)
     send('likes:recoverFromSearch', results, done)
     send('domains:recoverFromSearch', results, done)
+
+    if (payload.selectFirstItem) {
+      send('search:setPreview', results[0], done)
+    }
   })
 }
 

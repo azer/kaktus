@@ -4,17 +4,17 @@ const createTitleBar = require("../title-bar")
 const movementButtons = require("./movement-buttons")
 const tabs = require("../../models/tabs")
 const isButton = require("../is-button")
-
+const urls = require("../../urls");
 
 const titleText = (tab, prev, send) => html`
 <div class="title-text">
-  ${tab.isNew ? "New Tab" : prettyTitle(tab.title) || "Loading..."}
+  ${tab.isNew ? "New Tab" : prettyTitle(tab.title || tab.url) || "Loading..."}
 </div>
 `
 
 const errorText = (tab, prev, send) => html`
-<div class="title-text">
-  ${tab.webviewURL}
+<div class="title-text title-text-with-error">
+  <span>${urls.clean(tab.webviewURL)}</span> (Failed)
 </div>
 `
 
@@ -37,7 +37,7 @@ const surfingBar = (state, prev, send) => {
 module.exports = surfingBar
 
 function prettyTitle (original) {
-  if (!original || !original.trim() || /^https?:\/\//.test(original)) {
+  if (urls.isURL(original)) {
     return titleFromURL(original)
   }
 
@@ -50,10 +50,6 @@ function onClick (tab, state, prev, send) {
       return
     }
 
-    send('search:open', {
-      query: tab.url,
-      search: '',
-      select: true
-    })
+    send('search:open', { query: '', selectFirstItem: true })
   }
 }

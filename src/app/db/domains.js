@@ -5,7 +5,11 @@ const store = db.store('domains', {
 })
 
 const PRIVATE_BY_DEFAULT = [
-  'google.com'
+  'google.com',
+  'google.fr',
+  'google.co.uk',
+  'google.com.tr',
+  'google.co.id'
 ]
 
 module.exports = {

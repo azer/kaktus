@@ -8,7 +8,7 @@ function file (wm) {
         label: 'Open URL',
         accelerator: 'Ctrl+Space',
         click: () => {
-          wm.send('search:open', { query: '', search: '' })
+          wm.send('search:open', { query: '' })
         }
       },
       {

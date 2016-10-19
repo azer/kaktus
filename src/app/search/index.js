@@ -21,6 +21,6 @@ function search (query, callback) {
   embed(meta.search, [anglicize(query)], [history, likes, tabs, domains], (error, result) => {
     if (error) return callback(error)
 
-    callback(undefined, result.filter(filters.isUnique()).filter(filters.isValid).sort(sort).slice(0, 10))
+    callback(undefined, result.filter(filters.isUnique()).filter(filters.isValidMeta).sort(sort).slice(0, 10))
   })
 }

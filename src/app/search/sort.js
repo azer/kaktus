@@ -7,6 +7,9 @@ module.exports = sort
  * - Like
  */
 function sort (a, b) {
+  if (!a) return 1
+  if (!b) return -1
+
   // rule 1: tabs first
   if (a.tab && !b.tab) {
     return -1
@@ -22,6 +25,21 @@ function sort (a, b) {
   }
 
   if (a.tab && b.tab && a.tab.lastSeenAt < b.tab.lastSeenAt) {
+    return 1
+  }
+
+  // rule 3: popular first
+  if (a.isPopularRecord && !b.isPopularRecord) {
+    return -1
+  }
+
+  if (!a.isPopularRecord && b.isPopularRecord) {
+    return 1
+  }
+
+  if (a.isPopularRecord && b.isPopularRecord && a.record.lastUpdatedAt > b.record.lastUpdatedAt) {
+    return -1
+  } else if (a.isPopularRecord && b.isPopularRecord) {
     return 1
   }
 

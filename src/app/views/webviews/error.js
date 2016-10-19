@@ -34,6 +34,14 @@ const error501 = (props) => html`
 <div><strong>${props.hostname}</strong> has tried to load insecure resources.</div>
 `
 
+const error312 = (props) => html`
+<div><strong>${props.hostname}</strong> is not reachable because the port <strong>:${props.port}</strong> is not safe.</div>
+`
+
+const error324 = (props) => html`
+<div><strong>${props.hostname}</strong> can't be reached :( It refused to connect. Please check your internet connection and proxy/firewall configuration.</div>
+`
+
 const crash = (props) => html`
 <div><strong>${props.hostname}</strong> has just crashed.</div>
 `
@@ -50,6 +58,8 @@ const templates = {
   '-105': error105,
   '-106': error106,
   '-109': error109,
+  '-312': error312,
+  '-324': error324,
   '-501': error501,
   'crash': crash
 }
@@ -74,6 +84,7 @@ function render (error, tab, prev, send) {
 function props (error, tab) {
   return {
     hostname: hostname(error.url),
+    port: parseURL(error.url).port,
     url: error.url,
     tab,
     error

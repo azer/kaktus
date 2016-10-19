@@ -11,7 +11,7 @@ function button (options) {
         <i class="fa fa-${options.icon}" aria-hidden="true"></i>
     </div>
     <div class="preview-button-text">
-      ${options.title}
+      <span>${options.title}</span>
     </div>
   </div>
   `
