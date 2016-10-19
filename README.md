@@ -15,7 +15,7 @@ Index
 
 ## Download
 
-* [OSX](https://www.dropbox.com/s/tpiffhx45v856sl/Kakt%C3%BCs-darwin-x64.zip?dl=0)
+* [OSX](https://www.dropbox.com/s/h4odjwr7ynyaqfl/Kaktus-v0.0.3.zip?dl=0)
 
 #### Keyboard Shortcuts:
 * Command+T: New Tab
