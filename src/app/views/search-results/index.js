@@ -87,12 +87,12 @@ function rowTitle (row) {
 }
 
 function rowIcon (row, state, prev, send) {
-  if (row.tab || row.isPopularRecord) return null
+  if (row.tab || row.isPopularRecord || row.like) return null
   return (state.likes[row.url] ?  likedRowIcon : historicalRowIcon)(row, prev, send)
 }
 
 function rowIconURL (row) {
-  if (!row.tab && !row.isPopularRecord) return ''
+  if (!row.tab && !row.isPopularRecord && !row.like) return ''
 
   return row.icon
 }

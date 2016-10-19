@@ -1,8 +1,8 @@
 const urls = require("./urls")
 
 const DEV_MODE = process.env.DEV_MODE === 'ON'
-const DEFAULT = 'persist:kaktus'
-const DEV = 'persist:kaktus-dev'
+const DEFAULT = 'persist:kaktus-v1'
+const DEV = 'persist:kaktus-v1-dev'
 const PRIVATE = 'kaktus-private'
 
 module.exports = {

@@ -29,15 +29,15 @@ function sort (a, b) {
   }
 
   // rule 3: popular first
-  if (a.isPopularRecord && !b.isPopularRecord) {
+  if (a.isPopularRecord && !a.like && !b.isPopularRecord) {
     return -1
   }
 
-  if (!a.isPopularRecord && b.isPopularRecord) {
+  if (!a.isPopularRecord && b.isPopularRecord && !b.like) {
     return 1
   }
 
-  if (a.isPopularRecord && b.isPopularRecord && a.record.lastUpdatedAt > b.record.lastUpdatedAt) {
+  if (a.isPopularRecord && b.isPopularRecord && !a.like && !b.like && a.record.lastUpdatedAt > b.record.lastUpdatedAt) {
     return -1
   } else if (a.isPopularRecord && b.isPopularRecord) {
     return 1

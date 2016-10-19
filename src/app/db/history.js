@@ -1,6 +1,8 @@
 const db = require("./db")
 const urls = require("../urls")
 const meta = require("./meta")
+const recommended = require("../../recommended")
+const loop = require("parallel-loop")
 const store = db.store('history', {
   key: { keyPath: "url" },
   indexes: [
@@ -17,8 +19,7 @@ module.exports = {
   get,
   all,
   select,
-  popular,
-  popularDomains
+  popular
 }
 
 function visit (url, callback) {
@@ -54,7 +55,17 @@ function popular (options, callback) {
 
   options.index = 'counter'
 
-  select(options, callback)
+  select(options, (error, rows) => {
+    if (error) return callback(error)
+
+    if (rows && rows.length) return callback(undefined, rows)
+
+    addRecommendedSites((error) => {
+      if (error) return callback(error)
+
+      popular(options, callback)
+    })
+  })
 }
 
 function select (options, callback) {
@@ -81,32 +92,23 @@ function get (url, callback) {
   store.get(url, callback)
 }
 
-function popularDomains (options, callback) {
-  const result = []
-  const limit = 25
-  const range = null
-  const direction = 'prev'
-  const index = 'counter'
+function addRecommendedSites (callback) {
+  loop(recommended.length, each, callback)
 
-  const added = {}
+  function each (done, index) {
+    recommended[index].isPopularRecord = true
 
-  store.selectRange(index, range, direction, (error, row) => {
-    if (error) return callback(error)
-    if (!row) return callback(undefined, result)
+    save({
+      protocol: urls.protocol(recommended[index].url),
+      url: urls.clean(recommended[index].url),
+      webviewURL: recommended[index].url,
+      lastUpdatedAt: Date.now() - (index * 1000),
+      counter: 5,
+      isPopularRecord: true
+    }, error => {
+      if (error) return done(error)
+      meta.save(recommended[index], done)
+    })
 
-    const domain = urls.domain(row.value.url)
-
-    if (added[domain]) return row.continue()
-
-    added[domain] = true
-
-    row.value.url = domain
-    result.push(row.value)
-
-    if (result.length >= limit) {
-      return callback(undefined, result)
-    }
-
-    row.continue()
-  })
+  }
 }
