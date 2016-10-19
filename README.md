@@ -32,29 +32,11 @@ Index
 
 ## Roadmap
 
-Features planned:
-* Improved privacy mode that can be enabled for domain names (e.g Google)
-* Auto-search: automatically bringing results from search engines -in privacy mode- to the menu, so user doesn't have to open them.
-* Split browsing and follow-mode
-
-Known issues:
-* Multiple windows share same tabbing session.
-* There is bugs with tabbing behavior.
-* Back/forward buttons should update immediately after url changes
-* The tabbing menu doesn't make it clear between history and tab items
-
-Missing:
-* Context menu
+What is missing ?
+* A logo
 * Download manager
-* PDF Preview
-
-Improvements:
-* Making search better (it currently can only match word-by-word)
-* Showing screenshot on the tabbing menu (saving it to DB may be?)
-* Saving and recovering screen size & positions
-
-Windows & Linux:
-* They don't look as nice as OSX builds do. Visual improvements are needed for both.
+* PDF Support
+* Right-click Context Menu
 
 ## Call For Designers 
 
