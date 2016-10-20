@@ -4,7 +4,6 @@ A new minimalistic web browser. It's currently usable, [and there is a lot to do
 
 Screenshots: [Simple View](https://cldup.com/6jOWAjYdpo.png) | [Tabbing](https://cldup.com/wDadS2XGrb.gif) | [Private Mode for Sites](https://cldup.com/qsYAu0F-ja.png)
 
-Index
 * [Download](#download)
 * [Keyboard Shortcuts](#keyboard-shortcuts)
 * [Roadmap](#roadmap)
