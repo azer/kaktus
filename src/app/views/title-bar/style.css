@@ -74,12 +74,6 @@
   top: 7px;
   cursor: pointer;
   color: rgb(180, 180, 180);
-  cursor: pointer;
-}
-
-.title-bar .private-mode-icon {
-  color: rgb(90, 62, 121);
-  /* rgb(90, 62, 101); rgb(128, 117, 132)  */
 }
 
 .title-bar .create-tab-button:hover {

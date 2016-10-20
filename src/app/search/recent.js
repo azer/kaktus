@@ -78,7 +78,7 @@ function combine (lists) {
 
     while (++i < len) {
       let row = l.list[i]
-      if (!row) continue
+      if (!row || (row.tab && row.tab.url.trim() === "")) continue
       if (added[row.url]) continue
       if (l.max && l.counter >= l.max) break
       if (!l.counter) l.counter = 0

@@ -49,7 +49,7 @@ function normalize (input) {
 }
 
 function isSearchQuery (input) {
-  return !isURL(input)
+  return !isURL(input.trim())
 }
 
 function isURL (input) {

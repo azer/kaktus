@@ -289,7 +289,7 @@ function print (webview, payload, send, done) {
 }
 
 function zoomIn (webview, payload) {
-  if (paylod.tab.zoomLevel >= MAX_ZOOM_LEVEL) {
+  if (payload.tab.zoomLevel >= MAX_ZOOM_LEVEL) {
     return
   }
 

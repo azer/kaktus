@@ -3,16 +3,18 @@ const debounce = require("debounce-fn")
 const movementButtons = require("./movement-buttons")
 const searchResults = require("../search-results")
 const createTitleBar = require('../title-bar')
+let search
 
 const input = (state, prev, send) => {
   const selectedTab = state.tabs[state.tabs.selectedId]
+  search || (search = _search(send))
 
   return html`
     <input class="url"
       value='${state.search.query}'
       placeholder='${selectedTab.url || "Search or type a website name"}'
       onkeyup=${onKeyUp(state, prev, send)}
-      oninput=${onInput(selectedTab, prev, send)}
+      oninput=${onInput(selectedTab, search, send)}
       x-webkit-speech />
   `
 }
@@ -78,18 +80,10 @@ function onKeyUp (state, prev, send) {
   }
 }
 
-function onInput (tab, prev, send) {
-  const search = debounce(_search, 300)
-
+function onInput (tab, search, send) {
   return function (e) {
     send('search:setQuery', e.target.value)
     search(e.target.value)
-  }
-
-  function _search (value) {
-    send('search:search', {
-      query: value
-    })
   }
 }
 
@@ -101,4 +95,12 @@ function selectedTab (state) {
   if (!isPreviewTab) return false
 
   return state.search.preview.tab.id !== state.tabs.selectedId
+}
+
+function _search (send) {
+  return debounce(function (query) {
+    send('search:search', {
+      query
+    })
+  })
 }

@@ -1,32 +1,15 @@
-const html = require('choo/html')
-const prettyURL = require("../../pretty-url")
-const buttons = require("./buttons")
+const url = require("./url")
+const searchQuery = require("./search-query")
 
-const image = (state, prev, send) => html`
-<div class="preview-image">
-  <img src="${fixImageURL(state.search.preview.image || state.search.preview.icon)}" />
-</div>
-`
+module.exports = show
 
-const preview = (state, prev, send) => html`
-<div class="preview">
-  ${state.search.preview.image || state.search.preview.icon ? image(state, prev, send) : null}
-  <div class="preview-text">${state.search.preview.title}</div>
-  <div class="preview-url">${state.search.preview.url}</div>
-  ${buttons(state, prev, send)}
-</div>
-`
-
-
-module.exports = either
-
-function either (state, prev, send) {
-  if (!state.search.preview) return null
-  return preview(state, prev, send)
+function show (state, prev, send) {
+  const view = pick(state)
+  if (view) return view(state, prev, send)
 }
 
-function fixImageURL (url) {
-  if (/^\w+:\/\//.test(url)) return url
-  if (/^\/\//.test(url)) return `http:${url}`
-  return `http://${url}`
+function pick (state, prev, send) {
+  if (!state.search.preview) return
+  if (state.search.preview.search) return searchQuery
+  return url
 }

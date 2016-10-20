@@ -1,6 +1,6 @@
 const html = require('choo/html')
 const button = require("./button")
-const urls = require("../../urls")
+const urls = require("../../../urls")
 const clipboard = electronRequire("electron").clipboard
 
 const likeButton = button({ title: 'Like', 'icon': 'heart', onclick: like })
