@@ -60,7 +60,6 @@ function down (payload, state, send, done) {
   if (state.results.length === 0) return
   const index = findPreviewIndex(state)
   const next = state.results[ (index + 1) % state.results.length ]
-  console.log(index, state.results)
   send('search:setPreview', next, done)
   send('search:setQuery', next.search ? next.search.query : next.url, done)
   send('search:selectInput', send)
