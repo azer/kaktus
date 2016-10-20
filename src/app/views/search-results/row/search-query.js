@@ -27,8 +27,10 @@ function setPreview (row, prev, send) {
 }
 
 function _select (row, prev, send) {
+  let url = `http://google.com/search?q=${row.search.query}`
+
   send('tabs:go', {
-    url: `http://google.com/search?q=${row.search.query}`
+    url: urls.isURL(row.search.query) ? row.search.query : url
   })
 }
 

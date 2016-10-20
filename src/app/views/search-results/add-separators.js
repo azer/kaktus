@@ -6,6 +6,7 @@ function add (rows) {
   let likeSeparator = false
   let tabSeparator = false
   let popularSeparator = false
+  let searchSeparator = false
 
   for (let row of rows) {
     if (row.tab && !tabSeparator) {
@@ -17,6 +18,9 @@ function add (rows) {
     } else if (!row.tab && row.like && !likeSeparator) {
       likeSeparator = true
       result.push({ separator: true, like: true })
+    } else if (row.search && !searchSeparator) {
+      searchSeparator = true
+      result.push({ separator: true, search: true })
     } else if (!row.tab && !row.like && !row.isPopularRecord && row.record && !historySeparator) {
       historySeparator = true
       result.push({ separator: true, history: true })

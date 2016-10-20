@@ -60,6 +60,7 @@ function down (payload, state, send, done) {
   if (state.results.length === 0) return
   const index = findPreviewIndex(state)
   const next = state.results[ (index + 1) % state.results.length ]
+  console.log(index, state.results)
   send('search:setPreview', next, done)
   send('search:setQuery', next.search ? next.search.query : next.url, done)
   send('search:selectInput', send)
@@ -74,7 +75,7 @@ function findPreviewIndex (state) {
   let i = -1
   const len = rows.length
   while (++i < len) {
-    if (rows[i].url !== state.preview.url) continue
+    if (!isSameRow(rows[i], state.preview)) continue
     index = i
     break
   }
@@ -130,4 +131,12 @@ function _suggest (payload, state, send, done) {
       send('search:addResults', { rows: results, query: payload.query }, done)
     })
   })
+}
+
+function isSameRow (a, b) {
+  if (a.search) {
+    return b.search && a.search.query === b.search.query
+  }
+
+  return a.url === b.url
 }

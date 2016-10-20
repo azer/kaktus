@@ -57,7 +57,7 @@ function allTabs (callback) {
 function recentHistory (callback) {
   embed(history.all, [{ limit: 50 }], [likes, meta, tabs, domains], function (error, rows) {
     if (error) return callback(error)
-    callback(undefined, rows.map(maps.record))
+    callback(undefined, rows.filter(r => !r.domain || !r.domain.privateMode).map(maps.record))
   })
 }
 

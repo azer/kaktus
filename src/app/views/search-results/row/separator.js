@@ -3,7 +3,7 @@ const tab = createSeparator({ title: 'Tabs', icon: 'bars' })
 const history = createSeparator({ title: 'Recently Visited', icon: 'file-o'  })
 const like = createSeparator({ title: 'Liked', icon: 'heart'  })
 const popular = createSeparator({ title: 'Popular', icon: 'fire'  })
-const search = createSeparator({ title: 'Search Queries', icon: 'search'  })
+const search = createSeparator({ title: 'Search Suggestions', icon: 'search'  })
 
 module.exports = show
 
