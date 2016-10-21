@@ -35,7 +35,6 @@ What is missing ?
 * A logo
 * Download manager
 * PDF Support
-* Right-click Context Menu
 
 ## Call For Designers 
 

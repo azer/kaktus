@@ -1,5 +1,6 @@
 const html = require('choo/html')
 const partition = require("../../partition")
+const contextMenu = require("./context-menu")
 
 const private = (tab, state, prev, send) => html`
 <div class="private-mode-wrapper">
@@ -12,7 +13,8 @@ const webview = (tab, state, prev, send) => {
   <webview id="${partition.webviewId(tab, state)}"
            class="webview active"
            src="${tab.webviewURL}"
-           partition=${partition.tab(tab, state)}></webview>`
+           partition=${partition.tab(tab, state)}
+           preload="./preload.js"></webview>`
 
   tree.addEventListener('did-start-loading', onLoadStateChange('start', tab, tree, send))
   tree.addEventListener('did-stop-loading', onLoadStateChange('stop', tab, tree, send))
@@ -49,6 +51,10 @@ const webview = (tab, state, prev, send) => {
     update(send, tab, {
       isDOMReady: true
     })
+  })
+
+  tree.addEventListener('ipc-message', (event) => {
+    if (event.channel === 'context-menu') return contextMenu(event.args[0], tree, state, send)
   })
 
   return tree

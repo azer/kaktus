@@ -18,7 +18,6 @@ function create (wm) {
   ].map(fn => fn(wm))
 
   const template = dev(wm, osx(wm, items))
-
   const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
 }

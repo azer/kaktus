@@ -41,8 +41,6 @@ class WindowManager {
 
     this.app.on('window-all-closed', this.onWindowsClose.bind(this))
     this.app.on('activate', this.onActivate.bind(this))
-
-
   }
 
   _createWindow (options, actions) {

@@ -1,6 +1,7 @@
 node_modules
 npm-debug.log
 .DS_Store
-build/*.js
+build/dev.js
+build/min.js
 build/*.css
 dist
