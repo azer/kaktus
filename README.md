@@ -74,7 +74,7 @@ Kaktüs is built with [choo](https://github.com/yoshuawuyts/choo) and [electron]
 
 ```bash
 $ make watch-css
-$ make dev
+$ make watch-js
 $ make start
 ```
 
