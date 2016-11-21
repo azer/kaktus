@@ -14,7 +14,7 @@ Screenshots: [Simple View](https://cldup.com/6jOWAjYdpo.png) | [Tabbing](https:/
 
 ## Download
 
-* [OSX](https://www.dropbox.com/s/e6crhk0peh7fitk/Kaktus-v1.2.0.zip?dl=0)
+* [macOS](https://www.dropbox.com/s/e6crhk0peh7fitk/Kaktus-v1.2.0.zip?dl=0)
 
 #### Keyboard Shortcuts:
 * Command+T: New Tab
@@ -57,7 +57,7 @@ npm install
 
 And get the build out for your target platform. Available platforms are:
 
-* osx
+* macOS
 * win
 * linux
 
@@ -67,7 +67,7 @@ So, I usually run;
 make osx
 ```
 
-Command to get my build for OSX.
+Command to get my build for macOS.
 
 #### Making Changes
 Kaktüs is built with [choo](https://github.com/yoshuawuyts/choo) and [electron](https://github.com/electron/electron). Here is the commands I run to start the development:
