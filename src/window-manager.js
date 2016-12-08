@@ -55,14 +55,6 @@ class WindowManager {
       this.counter--
     })
 
-    actions.push({ name: 'general:setFocusMode', payload: this.focusMode })
-
-    if (this.counter === 1) {
-      actions.push({ name: 'tabs:recoverTabs', payload: null })
-    } else {
-      actions.push({ name: 'tabs:newTab', payload: null })
-    }
-
     win.webContents.on('did-finish-load', () => {
       actions.forEach(a => this._send(win, a.name, a.payload))
     })
@@ -75,7 +67,10 @@ class WindowManager {
   }
 
   createWindow () {
-    return this._createWindow(defaultOptions, [])
+    return this._createWindow(defaultOptions, [
+      { name: 'buffers:init', payload: { window: this.counter + 1 } },
+      { name: 'general:set', payload: { focusMode: this.focusMode } }
+    ])
   }
 
   createPrivateWindow () {
@@ -83,8 +78,8 @@ class WindowManager {
     privateOptions.webPreferences.partition = partitionName
 
     return this._createWindow(privateOptions, [
-      { name: 'general:setPrivateMode', payload: true },
-      { name: 'general:setPartitionName', payload: partitionName }
+      { name: 'buffers:init', payload: { window: this.counter + 1 } },
+      { name: 'general:set', payload: { privateMode: true, focusMode: this.focusMode,  partitionName } }
     ])
   }
 
