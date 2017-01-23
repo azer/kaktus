@@ -14,7 +14,7 @@ Screenshots: [Simple View](https://cldup.com/6jOWAjYdpo.png) | [Tabbing](https:/
 
 ## Download
 
-* [macOS](https://www.dropbox.com/s/e6crhk0peh7fitk/Kaktus-v1.2.0.zip?dl=0)
+* [macOS](https://www.dropbox.com/s/zk0hd9ec6k0a0yc/Kaktus-v1.2.0.zip?dl=0)
 
 #### Keyboard Shortcuts:
 * Command+T: New Tab
