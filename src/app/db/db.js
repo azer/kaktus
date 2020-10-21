@@ -1,3 +1,3 @@
-module.exports = require("indexeddb")('kaktus', {
+module.exports = require("../../../indexeddb")('kaktus', {
   version: 4
 })

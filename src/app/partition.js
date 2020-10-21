@@ -9,7 +9,9 @@ module.exports = {
   window: name,
   tab,
   webviewId,
-  isPrivateModeDomain
+  isPrivateModeDomain,
+  preferences,
+  userAgent
 }
 
 function name (isPrivate) {
@@ -20,6 +22,16 @@ function name (isPrivate) {
 function tab (t, state) {
   if (state.general.privateMode) return state.general.partitionName
   return name(isPrivateModeDomain(t || state.tabs[state.tabs.selectedId], state))
+}
+
+function preferences (t, state) {
+  return "javascript=no"
+  return ""
+}
+
+function userAgent (t, state) {
+  return "Lynx/2.8.4rel.1 libwww-FM/2.14 SSL-MM/1.4.1 OpenSSL/0.9.6c"
+  return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.110 Safari/537.36"
 }
 
 function webviewId (t, state) {

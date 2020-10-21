@@ -32,15 +32,17 @@
 .preview .preview-text {
   border-top: 1px solid #eee;
   margin-top: 5px;
-  padding-top: 5px;
+  padding: 10px 10px 0px 10px;
 }
 
 .preview .preview-url {
-  color: #666;
+    color: #888;
+    padding: 3px 10px 10px 10px;
 }
 
 .preview-buttons {
-  margin-top: 5px;
+    margin-top: 5px;
+    padding: 5px;
 }
 
 .preview-button {
@@ -74,7 +76,7 @@
   color: rgba(225, 25, 0, 0.9);
 }
 
-.preview-button.private-mode.active .preview-button-icon {
+.preview-button.private-mode.active .preview-button-icon, .preview-button.nineteens-mode.active .preview-button-icon {
   color: rgb(90, 62, 121);
 }
 

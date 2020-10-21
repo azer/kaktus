@@ -7,9 +7,11 @@ const likeButton = button({ title: 'Like', 'icon': 'heart', onclick: like })
 const unlikeButton = button({ title: 'Liked', classes: ['active'], icon: 'heart', onclick: unlike })
 const enablePrivateModeButton = button({ title: 'Private Mode', icon: 'user-secret', onclick: enablePrivateMode })
 const disablePrivateModeButton = button({ title: 'Private Mode', classes: ['active'], icon: 'user-secret', onclick: disablePrivateMode })
+const enableNineteensModeButton = button({ title: '90s Mode', icon: 'record-vinyl', onclick: enablePrivateMode })
+const disableNineteensModeButton = button({ title: '90s Mode', classes: ['nineteens-mode active'], icon: 'record-vinyl', onclick: disablePrivateMode })
 const removeFromHistoryButton = button({ title: 'Remove From History', icon: 'trash-o', onclick: removeFromHistory })
-const muteButton = button({ title: 'Mute', icon: 'volume-off', onclick: mute })
-const unmuteButton = button({ title: 'Unmute', icon: 'volume-up', onclick: unmute })
+const muteButton = button({ title: 'Mute', icon: 'volume-up', onclick: mute })
+const unmuteButton = button({ title: 'Muted', icon: 'volume-off', onclick: unmute })
 const openInNewTabButton = button({ title: 'Open In New Tab', icon: 'plus', onclick: openInNewTab })
 const openButton = button({ title: 'Open', icon: 'link', onclick: openInSameTab })
 const closeTabButton = button({ title: 'Close', icon: 'close', onclick: closeTab })
@@ -35,6 +37,7 @@ function buttons (state) {
     selectedTab.isNew && selectedTab.url !== preview.url ? null : openInNewTabButton,
     state.likes[state.search.preview.url] ? unlikeButton : likeButton,
     domain && domain.privateMode ? disablePrivateModeButton : enablePrivateModeButton,
+    domain && domain.privateMode ? disableNineteensModeButton : enableNineteensModeButton,
     copyURLButton
   ]
 }
@@ -46,6 +49,7 @@ function tabButtons (state) {
   const result = [
     state.likes[state.search.preview.url] ? unlikeButton : likeButton,
     domain && domain.privateMode ? disablePrivateModeButton : enablePrivateModeButton,
+    domain && domain.privateMode ? disableNineteensModeButton : enableNineteensModeButton,
     closeTabButton
   ]
 

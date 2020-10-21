@@ -5,48 +5,23 @@
     "icon": "http://pmr.lt/favicons/favicon-72x72.png"
   },
   {
-    "title": "Al Jazeera",
-    "url": "http://www.aljazeera.com",
-    "icon": "http://www.aljazeera.com/mrItems/Assets/Images/NewArticle/a-j-e-overlay-copy.png"
-  },
-  {
-    "title": "OpenStreetMap",
-    "icon": "http://www.openstreetmap.org/assets/favicon-96x96-538aa7e9e2315beabc6b074c4d7688602fe2b39ecd6e80f5e55f92c2be21744a.png",
-    "url": "http://www.openstreetmap.org"
-  },
-  {
-    "title": "TED",
-    "url": "http://ted.com",
-    "icon": "https://pa.tedcdn.com/favicon.ico"
-  },
-  {
     "title": "Brain Pickings",
     "url": "https://www.brainpickings.org",
     "icon": "https://i2.wp.com/www.brainpickings.org/wp-content/uploads/2015/09/cropped-BP_icon.png?fit=32%2C32&ssl=1"
   },
   {
-    "title": "Youtube",
-    "url": "http://www.youtube.com",
-    "icon": "https://s.ytimg.com/yts/img/favicon_48-vfl1s0rGh.png"
-  },
-  {
-    "title": "WikiHow",
-    "url": "http://www.wikihow.com/Main-Page",
-    "icon": "http://pad3.whstatic.com/skins/WikiHow/wH-initials_152x152.png"
-  },
-  {
     "title": "It's Nice That",
     "url": "http://itsnicethat.com",
-    "icon": "http://assets.itsnicethat.com/assets/apple-touch-icon-b0212633eb1ae1ca8afbd07175a47dd6.png"
+    "icon": "https://www.itsnicethat.com/favicon-32x32.png"
   },
   {
-    "title": "Trustroots",
-    "url": "http://trustroots.org",
-    "icon": "https://www.trustroots.org/modules/core/img/favicon@2x.png"
+    "title": "Hacker News",
+    "url": "http://news.ycombinator.com",
+    "icon": "https://news.ycombinator.com/favicon.ico"
   },
   {
-    "title": "Instructables",
-    "url": "http://www.instructables.com",
-    "icon": "http://www.instructables.com/favicon.ico"
+    "title": "GoodReads",
+    "url": "http://goodreads.com",
+    "icon": "http://d.gr-assets.com/misc/1454549143-1454549143_goodreads_misc.png"
   }
 ]
