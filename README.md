@@ -1,6 +1,6 @@
 ## fathomecat
 
-A new minimalistic web browser.
+A new minimalistic web browser. It was formerly called "kaktüs", renamed to "fat home cat" later.
 
 Screenshots: [Simple View](https://cldup.com/6jOWAjYdpo.png) | [Tabbing](https://cldup.com/wDadS2XGrb.gif) | [Private Mode for Sites](https://cldup.com/qsYAu0F-ja.png)
 
