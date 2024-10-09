@@ -14,7 +14,7 @@
     "change-object": "github:azer/change-object",
     "choo": "3.3.0",
     "debounce-fn": "github:azer/debounce-fn",
-    "electron": "1.4.0",
+    "electron": "22.3.25",
     "format-text": "github:azer/format-text",
     "indexeddb": "github:azer/indexeddb",
     "less-common-words": "github:azer/less-common-words",
